@@ -1,4 +1,5 @@
 import { Outlet } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import Footer from "../common/Footer";
 import Navbar from "../common/Navbar";
 const MainLayout = () => {
@@ -13,6 +14,7 @@ const MainLayout = () => {
       <footer>
         <Footer />
       </footer>
+      <ToastContainer />
     </>
   );
 };
