@@ -73,6 +73,7 @@
 
 import { Avatar, Button, Switch } from "@material-tailwind/react";
 import { useContext, useEffect, useState } from "react";
+import { IoMdClose, IoMdMenu } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvaider";
 import logo from "/logo.png";
@@ -196,8 +197,8 @@ const Navbar = () => {
                 </Link>
               </div>
             )}
-            {/* Theme Switch */}
 
+            {/* Theme Switch */}
             <div className="hidden lg:block">
               <Switch
                 checked={darkMode}
@@ -207,12 +208,12 @@ const Navbar = () => {
             </div>
             {/*Dropdown Navbar  */}
             <div className="lg:hidden ">
-              <div className="relative">
+              <div className="relative flex items-center">
                 <button
                   onClick={handleDropdown}
-                  className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+                  className="text-gray-900 dark:text-gray-200 text-3xl hover:text-gray-700"
                 >
-                  {isOpen ? <span>Close</span> : <span>Open</span>}
+                  {isOpen ? <IoMdClose /> : <IoMdMenu />}
                 </button>
 
                 {isOpen && (
