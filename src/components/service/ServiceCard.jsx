@@ -12,9 +12,6 @@ import { format } from "date-fns";
 import { Link } from "react-router-dom";
 
 const ServiceCard = ({ service }) => {
-  const handeleDetails = (id) => {
-    console.log(id);
-  };
   return (
     <>
       <Card className="shadow-lg hover:shadow-xl transition duration-300">
@@ -35,23 +32,22 @@ const ServiceCard = ({ service }) => {
               ? `${service.description.substring(0, 80)}...`
               : service.description}
           </Typography>
-         <div className="flex justify-between items-center">
-         <Typography variant="h6" className="font-bold text-blue-500">
-            ${service.price}
-          </Typography>
-          <Typography variant="small" className="text-gray-500">
-            {format(new Date(service.date), "MMMM dd, yyyy")}
-          </Typography>
-         </div>
+          <div className="flex justify-between items-center">
+            <Typography variant="h6" className="font-bold text-blue-500">
+              ${service.price}
+            </Typography>
+            <Typography variant="small" className="text-gray-500">
+              {format(new Date(service.date), "MMMM dd, yyyy")}
+            </Typography>
+          </div>
         </CardBody>
 
         <CardFooter className="flex justify-between items-center">
           <Button
             color="blue"
             // size="regular"
-            onClick={() => handeleDetails(service._id)}
           >
-            <Link>See Details</Link>
+            <Link to={`/service/details/${service._id}`}>See Details</Link>
           </Button>
         </CardFooter>
       </Card>
