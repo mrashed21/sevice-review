@@ -70,7 +70,7 @@ const Register = () => {
   };
 
   return (
-    <div className=" py-10">
+    <div className="  py-10">
       <div className="px-5 md:px-0 md:w-6/12 mx-auto">
         <Card className="p-6 shadow-md">
           <Typography variant="h3" className="text-center font-bold mb-6">
@@ -141,7 +141,7 @@ const Register = () => {
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-2/4 transform -translate-y-2/4 text-xl"
+                className="absolute right-3 top-5 transform -translate-y-2/4 text-xl"
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </button>
@@ -153,8 +153,11 @@ const Register = () => {
             </div>
             <div className="mb-4">
               <Typography variant="small">
-                All Ready Have an Accont?{" "} <Link to="/login" className="text-red-500 font-semibold">Login</Link>
-              </Typography> 
+                All Ready Have an Accont?{" "}
+                <Link to="/login" className="text-red-500 font-semibold">
+                  Login
+                </Link>
+              </Typography>
             </div>
             <Button type="submit" fullWidth>
               Register Now
