@@ -34,21 +34,24 @@ const ServiceCard = ({ service }) => {
           </Typography>
           <div className="flex justify-between items-center">
             <Typography variant="h6" className="font-bold text-blue-500">
-              ${service.price}
-            </Typography>
-            <Typography variant="small" className="text-gray-500">
-              {format(new Date(service.date), "MMMM dd, yyyy")}
+              Price: ${service.minPrice} - ${service.maxPrice}
             </Typography>
           </div>
+          <Typography variant="small" className="text-gray-500">
+            Added : {format(new Date(service.date), "MMMM dd, yyyy")}
+          </Typography>
         </CardBody>
 
         <CardFooter className="flex justify-between items-center">
-          <Button
-            color="blue"
-            // size="regular"
-          >
-            <Link to={`/service/details/${service._id}`}>See Details</Link>
-          </Button>
+          <Link to={`/service/details/${service._id}`}>
+            {" "}
+            <Button
+              color="blue"
+              // size="regular"
+            >
+              See Details{" "}
+            </Button>
+          </Link>
         </CardFooter>
       </Card>
     </>

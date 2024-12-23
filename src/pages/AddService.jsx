@@ -13,6 +13,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthProvaider";
+
 const AddService = () => {
   const { user } = useContext(AuthContext);
   const {
@@ -21,10 +22,9 @@ const AddService = () => {
     control,
     formState: { errors },
     reset,
+    watch,
   } = useForm();
 
-  //   const [selectedDate, setSelectedDate] = useState(new Date());
-  //   const [startDate, setStartDate] = useState(new Date());
   const addedDate = new Date();
   const categories = [
     "Web Development",
@@ -56,6 +56,8 @@ const AddService = () => {
       /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([/\w .-]*)*\/?$/;
     return urlPattern.test(value) || "Enter a valid URL";
   };
+
+  const minPrice = watch("minPrice");
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-50 py-10">
@@ -148,32 +150,46 @@ const AddService = () => {
             )}
           </div>
 
-          <div className="mb-4">
-            <Input
-              label="Price"
-              type="text"
-              {...register("price", {
-                required: "Price is required",
-                pattern: {
-                  value: /^[0-9]+$/,
-                  message: "Price must be a number",
-                },
-              })}
-            />
-            {errors.price && (
-              <p className="text-red-500 text-sm">{errors.price.message}</p>
-            )}
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Input
+                label="Minimum Price"
+                type="text"
+                {...register("minPrice", {
+                  required: "Minimum price is required",
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: "Please enter a valid positive number",
+                  },
+                })}
+                error={!!errors.minPrice}
+              />
+              {errors.minPrice && (
+                <Typography color="red">{errors.minPrice.message}</Typography>
+              )}
+            </div>
+
+            <div>
+              <Input
+                label="Maximum Price"
+                type="text"
+                {...register("maxPrice", {
+                  required: "Maximum price is required",
+                  pattern: {
+                    value: /^[0-9]+$/,
+                    message: "Please enter a valid positive number",
+                  },
+                  validate: (value) =>
+                    parseInt(value) >= parseInt(minPrice) ||
+                    "Maximum price must be greater than minimum price",
+                })}
+                error={!!errors.maxPrice}
+              />
+              {errors.maxPrice && (
+                <Typography color="red">{errors.maxPrice.message}</Typography>
+              )}
+            </div>
           </div>
-
-          {/* <div className="mb-4">
-            <DatePicker
-              selected={selectedDate}
-              onChange={(date) => setSelectedDate(date)}
-              className=" border-2 p-2 rounded w-full"
-            />
-
-            <label className="block text-sm font-medium mb-2">Added Date</label>
-          </div> */}
 
           <div>
             <Input label="User Email" defaultValue={user.email} readOnly />

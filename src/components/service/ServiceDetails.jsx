@@ -1,4 +1,3 @@
-
 import { Card, Spinner, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { format } from "date-fns";
@@ -6,7 +5,6 @@ import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvaider";
 import Review from "../review/Review";
-
 
 const ServiceDetails = () => {
   const { id } = useParams();
@@ -57,12 +55,11 @@ const ServiceDetails = () => {
           </Typography>
           <Typography className="mt-4">{service.description}</Typography>
           <Typography variant="h6" className="mt-2 text-blue-500">
-            ${service.price}
+            Price: ${service.minPrice} - ${service.maxPrice}
           </Typography>
           <Typography variant="small" className="mt-4 text-gray-500">
             Category: {service.category}
           </Typography>
-         
         </Card>
       </div>
       {/* Review section */}
