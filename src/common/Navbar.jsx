@@ -128,6 +128,12 @@ const Navbar = () => {
                 Add Service
               </Link>
               <Link
+                to="/service/me"
+                className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+              >
+              My Service
+              </Link>
+              <Link
                 to="/"
                 className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
               >
