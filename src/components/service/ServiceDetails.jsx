@@ -5,7 +5,8 @@ import { format } from "date-fns";
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { AuthContext } from "../../context/AuthProvaider";
-import Review from "./Review";
+import Review from "../review/Review";
+
 
 const ServiceDetails = () => {
   const { id } = useParams();
@@ -66,7 +67,7 @@ const ServiceDetails = () => {
       </div>
       {/* Review section */}
       <div className="w-full mt-8">
-        <Review serviceId={id} user={user} />
+        <Review serviceId={id} service={service} user={user} />
       </div>
     </>
   );

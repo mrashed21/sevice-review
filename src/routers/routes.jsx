@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Login from "../components/auth/Login";
 import Register from "../components/auth/Register";
+import MyReview from "../components/review/MyReview";
 import MyServices from "../components/service/MyService";
 import ServiceDetails from "../components/service/ServiceDetails";
 import AuthProvider from "../context/AuthProvaider";
@@ -23,6 +24,7 @@ const routes = createBrowserRouter([
       { path: "service/details/:id", element: <ServiceDetails /> },
       { path: "/service/add", element: <AddService /> },
       { path: "/service/me", element: <MyServices /> },
+      { path: "review/me", element: <MyReview /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
     ],

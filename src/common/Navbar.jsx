@@ -131,7 +131,13 @@ const Navbar = () => {
                 to="/service/me"
                 className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
               >
-              My Service
+                My Service
+              </Link>
+              <Link
+                to="/review/me"
+                className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+              >
+                My Review
               </Link>
               <Link
                 to="/"

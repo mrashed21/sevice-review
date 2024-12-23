@@ -4,14 +4,15 @@ import { Button, Textarea, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
-import Rating from "react-rating-stars-component";
-
-const Review = ({ serviceId, user }) => {
+import ReactStars from "react-rating-stars-component";
+const Review = ({ serviceId, user, service }) => {
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
-  const [loading, setLoading] = useState(true);
-
+  console.log("serviceId", serviceId);
+  console.log("service", service);
+  console.log("reviews", reviews);
+  const { title } = service;
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -19,10 +20,8 @@ const Review = ({ serviceId, user }) => {
           `http://localhost:4000/reviews/${serviceId}`
         );
         setReviews(res.data);
-        setLoading(false);
       } catch (error) {
-        console.error("Failed to fetch reviews", error);
-        setLoading(false);
+        console.log("Failed to fetch reviews", error);
       }
     };
     fetchReviews();
@@ -37,6 +36,7 @@ const Review = ({ serviceId, user }) => {
       reviewText,
       rating,
       date: new Date(),
+      title,
     };
 
     try {
@@ -55,9 +55,7 @@ const Review = ({ serviceId, user }) => {
         Reviews ({reviews.length})
       </Typography>
 
-      {loading ? (
-        <Typography>Loading reviews...</Typography>
-      ) : reviews.length === 0 ? (
+      {reviews.length === 0 ? (
         <Typography>No reviews yet.</Typography>
       ) : (
         <div className=" grid grid-cols-4 gap-4">
@@ -77,9 +75,14 @@ const Review = ({ serviceId, user }) => {
                 </div>
               </div>
               <Typography className="mt-2">{review.reviewText}</Typography>
-              <Typography variant="small" className="mt-1">
-                Rating: {review.rating} / 5
-              </Typography>
+              <div className="">
+                <ReactStars
+                  count={5}
+                  size={24}
+                  value={review.rating}
+                  edit={false}
+                />
+              </div>
             </div>
           ))}
         </div>
@@ -97,7 +100,7 @@ const Review = ({ serviceId, user }) => {
         />
         <div className="mt-4">
           <Typography>Rating:</Typography>
-          <Rating
+          <ReactStars
             count={5}
             size={24}
             value={rating}
