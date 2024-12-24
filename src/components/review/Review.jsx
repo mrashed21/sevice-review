@@ -307,7 +307,7 @@ const Review = ({ serviceId, user, service }) => {
         ) : (
           <div className="grid grid-cols-4 gap-4">
             {reviews.map((review) => (
-              <div key={review._id} className="border p-4 rounded-lg gap-4">
+              <div key={review._id} className="border  p-4 rounded-lg gap-4">
                 <div className="flex items-center gap-4">
                   <img
                     src={review.userPhoto}
@@ -321,7 +321,28 @@ const Review = ({ serviceId, user, service }) => {
                     </Typography>
                   </div>
                 </div>
-                <Typography className="mt-2">{review.reviewText}</Typography>
+                {review.reviewText.length > 100 ? (
+                  <p className="mt-2 text-gray-700">
+                    {review.showMore
+                      ? review.reviewText
+                      : `${review.reviewText.substring(0, 100)}... `}
+                    <span
+                      className="text-blue-500 cursor-pointer"
+                      onClick={() => {
+                        const updatedReviews = reviews.map((r) =>
+                          r._id === review._id
+                            ? { ...r, showMore: !r.showMore }
+                            : r
+                        );
+                        setReviews(updatedReviews);
+                      }}
+                    >
+                      {review.showMore ? "see less" : "see more"}
+                    </span>
+                  </p>
+                ) : (
+                  <p className="mt-2 text-gray-700">{review.reviewText}</p>
+                )}
                 <div>
                   <ReactStars
                     count={5}
@@ -335,7 +356,7 @@ const Review = ({ serviceId, user, service }) => {
                   />
                 </div>
                 {user?.email === review.userEmail && (
-                  <div className="flex gap-2 mt-4">
+                  <div className="flex justify-between mt-4">
                     <Button
                       size="sm"
                       color="blue"
@@ -399,7 +420,9 @@ const Review = ({ serviceId, user, service }) => {
         )}
       </div>
       <ReviewUpdate
-        open={open} reviewId={reviewId} handleOpen={handleOpen}
+        open={open}
+        reviewId={reviewId}
+        handleOpen={handleOpen}
       ></ReviewUpdate>
     </>
   );
