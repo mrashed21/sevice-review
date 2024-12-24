@@ -5,14 +5,16 @@ import axios from "axios";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import ReactStars from "react-rating-stars-component";
+
 const Review = ({ serviceId, user, service }) => {
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
-  console.log("serviceId", serviceId);
-  console.log("service", service);
-  console.log("reviews", reviews);
-  const { title } = service;
+  const [error, setError] = useState("");
+
+  const { title, image } = service;
+
+  // Fetch reviews
   useEffect(() => {
     const fetchReviews = async () => {
       try {
@@ -27,7 +29,20 @@ const Review = ({ serviceId, user, service }) => {
     fetchReviews();
   }, [serviceId]);
 
+  // Handle review submission with validation
   const handleReviewSubmit = async () => {
+    // Validation
+    if (reviewText.length < 20) {
+      setError("Review text must be at least 20 characters long.");
+      return;
+    }
+    if (rating < 1) {
+      setError("Please give at least 1 star rating.");
+      return;
+    }
+    setError("");
+
+    // Prepare review data
     const newReview = {
       serviceId,
       userEmail: user.email,
@@ -37,9 +52,11 @@ const Review = ({ serviceId, user, service }) => {
       rating,
       date: new Date(),
       title,
+      image,
     };
 
     try {
+      // Submit review
       await axios.post("http://localhost:4000/reviews/add", newReview);
       setReviews([...reviews, newReview]);
       setReviewText("");
@@ -50,17 +67,18 @@ const Review = ({ serviceId, user, service }) => {
   };
 
   return (
-    <div className=" w-11/12 mx-auto mt-8">
+    <div className="w-11/12 mx-auto mt-8">
       <Typography variant="h5" className="mb-4">
         Reviews ({reviews.length})
       </Typography>
 
+      {/* Display Reviews */}
       {reviews.length === 0 ? (
         <Typography>No reviews yet.</Typography>
       ) : (
-        <div className=" grid grid-cols-4 gap-4">
+        <div className="grid grid-cols-4 gap-4">
           {reviews.map((review) => (
-            <div key={review._id} className="border p-4 rounded-lg  gap-4">
+            <div key={review._id} className="border p-4 rounded-lg gap-4">
               <div className="flex items-center gap-4">
                 <img
                   src={review.userPhoto}
@@ -75,11 +93,15 @@ const Review = ({ serviceId, user, service }) => {
                 </div>
               </div>
               <Typography className="mt-2">{review.reviewText}</Typography>
-              <div className="">
+              <div>
                 <ReactStars
                   count={5}
+                  value={
+                    review?.rating?.$numberInt
+                      ? parseInt(review.rating.$numberInt)
+                      : review.rating
+                  }
                   size={24}
-                  value={review.rating}
                   edit={false}
                 />
               </div>
@@ -88,6 +110,7 @@ const Review = ({ serviceId, user, service }) => {
         </div>
       )}
 
+      {/* Add New Review */}
       <div className="mt-6 p-4 border-t">
         <Typography variant="h6" className="mb-2">
           Add a Review
@@ -107,6 +130,11 @@ const Review = ({ serviceId, user, service }) => {
             onChange={(value) => setRating(value)}
           />
         </div>
+        {error && (
+          <Typography color="red" className="mt-2">
+            {error}
+          </Typography>
+        )}
         <Button className="mt-4" onClick={handleReviewSubmit}>
           Submit Review
         </Button>

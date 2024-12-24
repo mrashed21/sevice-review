@@ -159,8 +159,8 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
               Category
             </Typography>
             <Select
-              value={watch("category")} // Sync with form data
-              onChange={(value) => setValue("category", value)} // Manually set value
+              value={watch("category")}
+              onChange={(value) => setValue("category", value)}
               error={!!errors.category}
             >
               <Option value="Web Development">Web Development</Option>
@@ -184,13 +184,6 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
               {...register("category", { required: "Category is required" })}
               error={!!errors.category}
             >
-              {/* 
-               "Web Development",
-    "Graphic Design",
-    "Marketing",
-    "SEO",
-    "Content Writing",
-              */}
               <Option value="Web Development">Web Development</Option>
               <Option value="Graphic Design">Graphic Design</Option>
               <Option value="Marketing">Marketing</Option>

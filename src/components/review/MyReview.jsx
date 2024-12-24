@@ -3,11 +3,14 @@ import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import ReactStars from "react-rating-stars-component";
 import { AuthContext } from "../../context/AuthProvaider";
+import UpdateReview from "./UpdateReview";
 
 const MyReview = () => {
   const { user } = useContext(AuthContext);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [reviewId, setReviewId] = useState("");
 
   // Fetch reviews
   useEffect(() => {
@@ -30,6 +33,11 @@ const MyReview = () => {
     }
   }, [user.email]);
 
+  // Toggle the modal and set the serviceId
+  const handleOpen = (id) => {
+    setOpen(!open);
+    setReviewId(id);
+  };
   // Loading spinner
   if (loading) {
     return (
@@ -40,44 +48,58 @@ const MyReview = () => {
   }
 
   return (
-    <div className="w-11/12 mx-auto py-10 ">
-      <h2 className="text-2xl font-bold text-center mb-6">My Reviews</h2>
+    <>
+      <div className="w-11/12 mx-auto py-10 ">
+        <h2 className="text-2xl font-bold text-center mb-6">My Reviews</h2>
 
-      <div className="space-y-5">
-        {reviews.length === 0 ? (
-          <div className="min-h-screen flex items-center justify-center">
-            <p className="text-center col-span-full">No reviews found.</p>
-          </div>
-        ) : (
-          reviews.map((review) => (
-            <div
-              key={review._id}
-              className="border p-4 rounded-lg shadow-md flex justify-between items-center"
-            >
-              <div className="">
-                <h3 className="text-lg font-semibold">{review.title}</h3>
-                <ReactStars
-                  count={5}
-                  value={review?.rating}
-                  size={24}
-                  edit={false}
-                />
-              </div>
-              <div className="">
-                <p className="mt-2 text-gray-700">{review.reviewText}</p>
-                <span className="text-gray-500 text-sm">
-                  {new Date(review.date).toLocaleDateString()}
-                </span>
-              </div>
-              <div className="flex gap-4">
-                <Button className="text-blue-500">Update</Button>
-                <Button className="text-red-500">Delete</Button>
-              </div>
+        <div className="space-y-5">
+          {reviews.length === 0 ? (
+            <div className="min-h-screen flex items-center justify-center">
+              <p className="text-center col-span-full">No reviews found.</p>
             </div>
-          ))
-        )}
+          ) : (
+            reviews.map((review) => (
+              <div
+                key={review._id}
+                className="border p-4 rounded-lg shadow-md flex justify-between items-center"
+              >
+                <div className="">
+                  <h3 className="text-lg font-semibold">{review.title}</h3>
+                  <ReactStars
+                    count={5}
+                    value={
+                      review?.rating?.$numberInt
+                        ? parseInt(review.rating.$numberInt)
+                        : review.rating
+                    }
+                    size={24}
+                    edit={false}
+                  />
+                </div>
+                <div className="">
+                  <p className="mt-2 text-gray-700">{review.reviewText}</p>
+                  <span className="text-gray-500 text-sm">
+                    {new Date(review.date).toLocaleDateString()}
+                  </span>
+                </div>
+                <div className="flex gap-4">
+                  <Button
+                    onClick={() => {
+                      handleOpen(review._id);
+                    }}
+                    className="text-blue-500"
+                  >
+                    Update
+                  </Button>
+                  <Button className="text-red-500">Delete</Button>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
-    </div>
+      <UpdateReview open={open} reviewId={reviewId} handleOpen={handleOpen} />
+    </>
   );
 };
 
