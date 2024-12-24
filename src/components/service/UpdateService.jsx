@@ -175,27 +175,6 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
             )}
           </div>
 
-          <div className="mt-4">
-            <Typography variant="small" className="mb-2">
-              Category
-            </Typography>
-            <Select
-              {...register("category", { required: "Category is required" })}
-              error={!!errors.category}
-            >
-              <Option value="Web Development">Web Development</Option>
-              <Option value="Graphic Design">Graphic Design</Option>
-              <Option value="Marketing">Marketing</Option>
-              <Option value="SEO">SEO</Option>
-              <Option value="Content Writing">Content Writing</Option>
-            </Select>
-            {errors.category && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.category.message}
-              </p>
-            )}
-          </div>
-
           <div className="mt-4 flex gap-4">
             <div className="w-1/2">
               <Typography variant="small" className="mb-2">

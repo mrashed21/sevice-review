@@ -126,7 +126,7 @@ const MyServices = () => {
                       {service.category}
                     </td>
                     <td className="border border-gray-300 px-4 py-2">
-                      ${service.price}
+                      ${service.minPrice} - ${service.maxPrice}
                     </td>
                     <td className="border border-gray-300 px-4 py-2">
                       {new Date(service.date).toLocaleDateString()}
