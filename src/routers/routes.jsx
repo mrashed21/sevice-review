@@ -9,6 +9,7 @@ import MainLayout from "../layouts/MainLayout";
 import AddService from "../pages/AddService";
 import Home from "../pages/Home";
 import Services from "../pages/Services";
+import PrivateRoute from "./PrivateRoute";
 
 const routes = createBrowserRouter([
   {
@@ -22,9 +23,33 @@ const routes = createBrowserRouter([
       { path: "/", element: <Home /> },
       { path: "/services", element: <Services /> },
       { path: "service/details/:id", element: <ServiceDetails /> },
-      { path: "/service/add", element: <AddService /> },
-      { path: "/service/me", element: <MyServices /> },
-      { path: "review/me", element: <MyReview /> },
+      {
+        path: "/service/add",
+        element: (
+          <PrivateRoute>
+            {" "}
+            <AddService />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/service/me",
+        element: (
+          <PrivateRoute>
+            {" "}
+            <MyServices />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "review/me",
+        element: (
+          <PrivateRoute>
+            {" "}
+            <MyReview />
+          </PrivateRoute>
+        ),
+      },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
     ],
