@@ -5,7 +5,7 @@ import axios from "axios";
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import ReactStars from "react-rating-stars-component";
-
+import { useNavigate } from "react-router-dom";
 const Review = ({ serviceId, user, service }) => {
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
@@ -66,8 +66,13 @@ const Review = ({ serviceId, user, service }) => {
     }
   };
 
+  // add a review
+  const navigate = useNavigate();
+  const handleAddReview = () => {
+    navigate("/login");
+  };
   return (
-    <div className="w-11/12 mx-auto mt-8">
+    <div className="w-11/12 mx-auto py-8">
       <Typography variant="h5" className="mb-4">
         Reviews ({reviews.length})
       </Typography>
@@ -113,34 +118,43 @@ const Review = ({ serviceId, user, service }) => {
       )}
 
       {/* Add New Review */}
-      <div className="mt-6 p-4 border-t">
-        <Typography variant="h6" className="mb-2">
-          Add a Review
-        </Typography>
-        <Textarea
-          label="Write your review"
-          value={reviewText}
-          onChange={(e) => setReviewText(e.target.value)}
-          required
-        />
-        <div className="mt-4">
-          <Typography>Rating:</Typography>
-          <ReactStars
-            count={5}
-            size={24}
-            value={rating}
-            onChange={(value) => setRating(value)}
-          />
-        </div>
-        {error && (
-          <Typography color="red" className="mt-2">
-            {error}
+      {user && user?.email ? (
+        <div className="mt-6 p-4 border-t">
+          <Typography variant="h6" className="mb-2">
+            Add a Review
           </Typography>
-        )}
-        <Button className="mt-4" onClick={handleReviewSubmit}>
-          Submit Review
-        </Button>
-      </div>
+          <Textarea
+            label="Write your review"
+            value={reviewText}
+            onChange={(e) => setReviewText(e.target.value)}
+            required
+          />
+          <div className="mt-4">
+            <Typography>Rating:</Typography>
+            <ReactStars
+              count={5}
+              size={24}
+              value={rating}
+              onChange={(value) => setRating(value)}
+            />
+          </div>
+          {error && (
+            <Typography color="red" className="mt-2">
+              {error}
+            </Typography>
+          )}
+          <Button className="mt-4" onClick={handleReviewSubmit}>
+            Submit Review
+          </Button>
+        </div>
+      ) : (
+        <div className="flex items-center justify-center mt-5 border-t">
+          <Button onClick={handleAddReview} className=" mt-5">
+            {" "}
+            add a review
+          </Button>
+        </div>
+      )}
     </div>
   );
 };
