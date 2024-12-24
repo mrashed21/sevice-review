@@ -18,7 +18,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function UpdateService({ open, handleOpen, selectedId }) {
-  console.log(selectedId);
   const navigate = useNavigate();
   const {
     register,

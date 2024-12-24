@@ -24,7 +24,7 @@ const Review = ({ serviceId, user, service }) => {
         );
         setReviews(res.data);
       } catch (error) {
-        console.log("Failed to fetch reviews", error);
+        console.error("Failed to fetch reviews", error);
       } finally {
         setLoading(false);
       }

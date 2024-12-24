@@ -16,7 +16,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function UpdateReview({ open, reviewId, handleOpen }) {
-  console.log("Review ID:", reviewId);
   const navigate = useNavigate();
   const [error, setError] = useState("");
 
@@ -36,9 +35,7 @@ export default function UpdateReview({ open, reviewId, handleOpen }) {
           const response = await axios.get(
             `http://localhost:4000/review/${reviewId}`
           );
-
           const review = response.data;
-          console.log("Fetched Review:", review);
 
           // Set form values
           setValue("title", review.title);
@@ -75,8 +72,6 @@ export default function UpdateReview({ open, reviewId, handleOpen }) {
     setError("");
 
     try {
-      console.log("Submitted Data:", data);
-
       const updatedData = {
         ...data,
         rating: { $numberInt: data.rating.toString() },

@@ -12,11 +12,13 @@ const MyServices = () => {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [serviceId, setServiceId] = useState("");
-
-  // Toggle the modal and set the serviceId
-  const handleOpen = (id) => {
-    setOpen(!open);
+  // handle pass id
+  const handlePassId = (id) => {
     setServiceId(id);
+  };
+  // Toggle the modal
+  const handleOpen = () => {
+    setOpen(!open);
   };
 
   useEffect(() => {
@@ -28,7 +30,7 @@ const MyServices = () => {
         setServices(res.data);
         setLoading(false);
       } catch (error) {
-        console.log("Error fetching services:", error);
+        console.error("Error fetching services:", error);
         setLoading(false);
       }
     };
@@ -131,7 +133,10 @@ const MyServices = () => {
                     </td>
                     <td className="border border-gray-300 px-4 py-2">
                       <button
-                        onClick={() => handleOpen(service._id)}
+                        onClick={() => {
+                          handleOpen(service._id);
+                          handlePassId(service._id);
+                        }}
                         className="text-blue-500 mr-2"
                       >
                         Update

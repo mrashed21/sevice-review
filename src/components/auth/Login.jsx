@@ -55,7 +55,7 @@ const Login = () => {
     try {
       await handleReseTPassword(resetEmail);
       toast.success("Reset email sent successfully!");
-      setIsModalOpen(false); // Close modal
+      setIsModalOpen(false);
     } catch {
       toast.error("Failed to send reset email!");
     }

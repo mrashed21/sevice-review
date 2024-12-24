@@ -22,10 +22,8 @@ const MyReview = () => {
         setReviews(res.data);
         setLoading(false);
       } catch (error) {
-        console.error("Error fetching reviews:", error);
         setLoading(false);
       }
-      console.log("my reviews", reviews);
     };
 
     if (user.email) {
@@ -59,10 +57,12 @@ const MyReview = () => {
       console.error("Error deleting review:", error);
     }
   };
-  // Toggle the modal and set the serviceId
-  const handleOpen = (id) => {
-    setOpen(!open);
+  const handlePassId = (id) => {
     setReviewId(id);
+  };
+  // Toggle the modal and set the serviceId
+  const handleOpen = () => {
+    setOpen(!open);
   };
   // Loading spinner
   if (loading) {
@@ -111,7 +111,8 @@ const MyReview = () => {
                 <div className="flex gap-4">
                   <Button
                     onClick={() => {
-                      handleOpen(review._id);
+                      handleOpen();
+                      handlePassId(review._id);
                     }}
                     className="text-blue-500"
                   >

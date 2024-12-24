@@ -1,6 +1,6 @@
 import { Typography } from "@material-tailwind/react";
 import { Link } from "react-router-dom";
-import logo from "/logo.png"; // Replace with your logo path
+import logo from "/logo.png"; 
 
 const Footer = () => {
   return (

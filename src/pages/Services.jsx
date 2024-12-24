@@ -1,41 +1,3 @@
-// import axios from "axios";
-// import { useEffect, useState } from "react";
-// import ServiceCard from "../components/service/ServiceCard";
-// import { Spinner } from "@material-tailwind/react";
-
-// const Services = () => {
-//   const [services, setServices] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   useEffect(() => {
-//     axios
-//       .get("http://localhost:4000/services")
-//       .then((res) => {
-//         setServices(res.data);
-//         setLoading(false);
-//       })
-//       .catch((err) => {
-//         console.error("Error fetching services:", err);
-//         setLoading(false);
-//       });
-//   }, []);
-//   if (loading) {
-
-//     return (
-//       <div className="flex items-center justify-center min-h-screen">
-//         <Spinner className="h-12 w-12 text-blue-500" />
-//       </div>
-//     );
-//   }
-//   return (
-//     <div className="w-11/12 mx-auto py-10 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-//       {services.map((service) => (
-//         <ServiceCard key={service._id} service={service} />
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default Services;
 import axios from "axios";
 import { useEffect, useState } from "react";
 import ServiceCard from "../components/service/ServiceCard";
@@ -43,6 +5,14 @@ import ServiceCard from "../components/service/ServiceCard";
 const Services = () => {
   const [services, setServices] = useState([]);
   const [allServices, setAllServices] = useState([]);
+  const [categories] = useState([
+    "Web Development",
+    "Graphic Design",
+    "Marketing",
+    "SEO",
+    "Content Writing",
+  ]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [keyword, setKeyword] = useState("");
 
   useEffect(() => {
@@ -59,31 +29,57 @@ const Services = () => {
     fetchServices();
   }, []);
 
-  const handleSearch = (e) => {
-    const value = e.target.value.toLowerCase();
-    setKeyword(value);
+  useEffect(() => {
+    let filteredServices = allServices;
 
-    if (value === "") {
-      setServices(allServices);
-    } else {
-      const filtered = allServices.filter(
+    if (keyword) {
+      filteredServices = filteredServices.filter(
         (service) =>
-          service.title.toLowerCase().includes(value) ||
-          service.category.toLowerCase().includes(value)
+          service.title.toLowerCase().includes(keyword.toLowerCase()) ||
+          service.category.toLowerCase().includes(keyword.toLowerCase()) ||
+          service.company.toLowerCase().includes(keyword.toLowerCase())
       );
-      setServices(filtered);
     }
+
+    if (selectedCategory) {
+      filteredServices = filteredServices.filter(
+        (service) => service.category === selectedCategory
+      );
+    }
+
+    setServices(filteredServices);
+  }, [keyword, selectedCategory, allServices]);
+
+  const handleSearch = (e) => {
+    setKeyword(e.target.value);
+  };
+
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
   };
 
   return (
     <div className="w-11/12 mx-auto py-10">
-      <div className="mb-6 flex justify-end">
+      <div className="mb-6 flex justify-between">
+        <select
+          value={selectedCategory}
+          onChange={handleCategoryChange}
+          className="p-3 border rounded-lg"
+        >
+          <option value="">All Categories</option>
+          {categories.map((cat) => (
+            <option key={cat} value={cat}>
+              {cat}
+            </option>
+          ))}
+        </select>
+        {/* search */}
         <input
           type="text"
           value={keyword}
           onChange={handleSearch}
           placeholder="Search services..."
-          className=" p-3 border rounded-lg w-1/3"
+          className="p-3 border rounded-lg w-1/3"
         />
       </div>
 
