@@ -1,6 +1,7 @@
 import { Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
+import swal from "sweetalert";
 import { AuthContext } from "../../context/AuthProvaider";
 import UpdateService from "./UpdateService";
 
@@ -15,7 +16,7 @@ const MyServices = () => {
   // Toggle the modal and set the serviceId
   const handleOpen = (id) => {
     setOpen(!open);
-    setServiceId(id)
+    setServiceId(id);
   };
 
   useEffect(() => {
@@ -37,6 +38,31 @@ const MyServices = () => {
     }
   }, [user.email]);
 
+  // handle delete
+  const handleDelete = async (id) => {
+    try {
+      swal({
+        title: "Are you sure?",
+        text: "Are you want to DELETE this service!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          axios.delete(`http://localhost:4000/service/delete/${id}`);
+          const newServices = services.filter((service) => service._id !== id);
+          setServices(newServices);
+          swal("DELETE seccessfull!", {
+            icon: "success",
+          });
+        } else {
+          swal("Your imaginary file is safe!");
+        }
+      });
+    } catch (error) {
+      console.error("Error deleting service:", error);
+    }
+  };
   const filteredServices = services?.filter((service) =>
     service.title.toLowerCase().includes(search?.toLowerCase())
   );
@@ -112,7 +138,12 @@ const MyServices = () => {
                       </button>
                     </td>
                     <td className="border border-gray-300 px-4 py-2">
-                      <button className="text-red-500">Delete</button>
+                      <button
+                        onClick={() => handleDelete(service._id)}
+                        className="text-red-500"
+                      >
+                        Delete
+                      </button>
                     </td>
                   </tr>
                 ))}

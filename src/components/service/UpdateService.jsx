@@ -24,6 +24,7 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
     register,
     handleSubmit,
     setValue,
+    watch,
     formState: { errors },
   } = useForm();
   useEffect(() => {
@@ -53,7 +54,10 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
 
   const onSubmit = async (data) => {
     try {
-      await axios.put(`http://localhost:4000/service/${selectedId}`, data);
+      await axios.put(
+        `http://localhost:4000/service/update/${selectedId}`,
+        data
+      );
       toast.success("Service updated successfully!");
       handleOpen();
       navigate("/services");
@@ -81,11 +85,10 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
               type="text"
               {...register("title", { required: "Title is required" })}
               placeholder="Enter title"
+              error={!!errors.title}
             />
             {errors.title && (
-              <p className="text-red-500 text-xs mt-1">
-                {errors.title.message}
-              </p>
+              <Typography color="red">{errors.title.message}</Typography>
             )}
           </div>
 
@@ -97,11 +100,12 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
               type="text"
               {...register("company", { required: "Company is required" })}
               placeholder="Enter company name"
+              error={!!errors.company}
             />
             {errors.company && (
-              <p className="text-red-500 text-xs mt-1">
+              <Typography className="text-red-500 text-xs mt-1">
                 {errors.company.message}
-              </p>
+              </Typography>
             )}
           </div>
 
@@ -119,11 +123,12 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
                 },
               })}
               placeholder="Enter website URL"
+              error={!!errors.website}
             />
             {errors.website && (
-              <p className="text-red-500 text-xs mt-1">
+              <Typography className="text-red-500 text-xs mt-1">
                 {errors.website.message}
-              </p>
+              </Typography>
             )}
           </div>
 
@@ -141,10 +146,32 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
                 },
               })}
               placeholder="Enter image URL"
+              error={!!errors.image}
             />
             {errors.image && (
-              <p className="text-red-500 text-xs mt-1">
+              <Typography className="text-red-500 text-xs mt-1">
                 {errors.image.message}
+              </Typography>
+            )}
+          </div>
+          <div className="mt-4">
+            <Typography variant="small" className="mb-2">
+              Category
+            </Typography>
+            <Select
+              value={watch("category")} // Sync with form data
+              onChange={(value) => setValue("category", value)} // Manually set value
+              error={!!errors.category}
+            >
+              <Option value="Web Development">Web Development</Option>
+              <Option value="Graphic Design">Graphic Design</Option>
+              <Option value="Marketing">Marketing</Option>
+              <Option value="SEO">SEO</Option>
+              <Option value="Content Writing">Content Writing</Option>
+            </Select>
+            {errors.category && (
+              <p className="text-red-500 text-xs mt-1">
+                {errors.category.message}
               </p>
             )}
           </div>
@@ -155,11 +182,20 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
             </Typography>
             <Select
               {...register("category", { required: "Category is required" })}
-              defaultValue="Marketing"
+              error={!!errors.category}
             >
+              {/* 
+               "Web Development",
+    "Graphic Design",
+    "Marketing",
+    "SEO",
+    "Content Writing",
+              */}
+              <Option value="Web Development">Web Development</Option>
+              <Option value="Graphic Design">Graphic Design</Option>
               <Option value="Marketing">Marketing</Option>
+              <Option value="SEO">SEO</Option>
               <Option value="Content Writing">Content Writing</Option>
-              <Option value="Design">Design</Option>
             </Select>
             {errors.category && (
               <p className="text-red-500 text-xs mt-1">
@@ -183,11 +219,12 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
                   },
                 })}
                 placeholder="Enter min price"
+                error={!!errors.minPrice}
               />
               {errors.minPrice && (
-                <p className="text-red-500 text-xs mt-1">
+                <Typography className="text-red-500 text-xs mt-1">
                   {errors.minPrice.message}
-                </p>
+                </Typography>
               )}
             </div>
             <div className="w-1/2">
@@ -204,11 +241,12 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
                   },
                 })}
                 placeholder="Enter max price"
+                error={!!errors.maxPrice}
               />
               {errors.maxPrice && (
-                <p className="text-red-500 text-xs mt-1">
+                <Typography className="text-red-500 text-xs mt-1">
                   {errors.maxPrice.message}
-                </p>
+                </Typography>
               )}
             </div>
           </div>
@@ -222,11 +260,12 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
                 required: "Description is required",
               })}
               placeholder="Enter description"
+              error={!!errors.description}
             />
             {errors.description && (
-              <p className="text-red-500 text-xs mt-1">
+              <Typography className="text-red-500 text-xs mt-1">
                 {errors.description.message}
-              </p>
+              </Typography>
             )}
           </div>
           <DialogFooter>
