@@ -2,9 +2,9 @@ import { Button } from "@material-tailwind/react";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 import ReactStars from "react-rating-stars-component";
+import swal from "sweetalert";
 import { AuthContext } from "../../context/AuthProvaider";
 import UpdateReview from "./UpdateReview";
-
 const MyReview = () => {
   const { user } = useContext(AuthContext);
   const [reviews, setReviews] = useState([]);
@@ -32,7 +32,33 @@ const MyReview = () => {
       fetchReviews();
     }
   }, [user.email]);
-
+  // handle delete review
+  const handleDelete = async (id) => {
+    // try {
+    //   await axios.delete(`http://localhost:4000/review/delete/${id}`);
+    //   setReviews(reviews.filter((review) => review._id !== id));
+    try {
+      swal({
+        title: "Are you sure?",
+        text: "Are you want to DELETE this review!",
+        icon: "warning",
+        buttons: true,
+        dangerMode: true,
+      }).then((willDelete) => {
+        if (willDelete) {
+          axios.delete(`http://localhost:4000/review/delete/${id}`);
+          setReviews(reviews.filter((review) => review._id !== id));
+          swal("DELETE seccessfull!", {
+            icon: "success",
+          });
+        } else {
+          swal("Your imaginary file is safe!");
+        }
+      });
+    } catch (error) {
+      console.error("Error deleting review:", error);
+    }
+  };
   // Toggle the modal and set the serviceId
   const handleOpen = (id) => {
     setOpen(!open);
@@ -91,7 +117,14 @@ const MyReview = () => {
                   >
                     Update
                   </Button>
-                  <Button className="text-red-500">Delete</Button>
+                  <Button
+                    onClick={() => {
+                      handleDelete(review._id);
+                    }}
+                    className="text-red-500"
+                  >
+                    Delete
+                  </Button>
                 </div>
               </div>
             ))

@@ -11,6 +11,7 @@ const Review = ({ serviceId, user, service }) => {
   const [reviewText, setReviewText] = useState("");
   const [rating, setRating] = useState(0);
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const { title, image } = service;
 
@@ -24,14 +25,14 @@ const Review = ({ serviceId, user, service }) => {
         setReviews(res.data);
       } catch (error) {
         console.log("Failed to fetch reviews", error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchReviews();
   }, [serviceId]);
 
-  // Handle review submission with validation
   const handleReviewSubmit = async () => {
-    // Validation
     if (reviewText.length < 20) {
       setError("Review text must be at least 20 characters long.");
       return;
@@ -42,7 +43,6 @@ const Review = ({ serviceId, user, service }) => {
     }
     setError("");
 
-    // Prepare review data
     const newReview = {
       serviceId,
       userEmail: user.email,
@@ -73,7 +73,9 @@ const Review = ({ serviceId, user, service }) => {
       </Typography>
 
       {/* Display Reviews */}
-      {reviews.length === 0 ? (
+      {loading ? (
+        <Typography>Loading reviews...</Typography>
+      ) : reviews.length === 0 ? (
         <Typography>No reviews yet.</Typography>
       ) : (
         <div className="grid grid-cols-4 gap-4">
