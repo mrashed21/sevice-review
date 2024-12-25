@@ -9,7 +9,10 @@ const Featured = () => {
     const fetchServices = async () => {
       try {
         const response = await axios.get(
-          "http://localhost:4000/services/featured"
+          "http://localhost:4000/services/featured",
+          {
+            withCredentials: true,
+          }
         );
         setServices(response.data);
       } catch (error) {
@@ -22,7 +25,7 @@ const Featured = () => {
 
   return (
     <div className="w-11/12 mx-auto py-7">
-      <Typography variant="h2" className="mb-6 text-center">
+      <Typography variant="h2" className="mb-6 text-center dark:text-white">
         Featured Services
       </Typography>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">

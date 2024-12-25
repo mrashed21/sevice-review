@@ -71,16 +71,17 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
       size="lg"
       open={open}
       handler={handleOpen}
-      className="p-4 overflow-y-scroll size-11/12"
+      className="p-4 overflow-y-scroll dark:bg-[#1E293B]  size-11/12"
     >
-      <DialogHeader>Update Service</DialogHeader>
+      <DialogHeader className="dark:text-white">Update Service</DialogHeader>
       <DialogBody>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div>
-            <Typography variant="small" className="mb-2">
+            <Typography variant="small" className="mb-2 dark:text-white">
               Title
             </Typography>
             <Input
+              className="dark:text-white"
               type="text"
               {...register("title", { required: "Title is required" })}
               placeholder="Enter title"
@@ -91,11 +92,12 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
             )}
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4 dark:text-white">
             <Typography variant="small" className="mb-2">
               Company
             </Typography>
             <Input
+             className="dark:text-white"
               type="text"
               {...register("company", { required: "Company is required" })}
               placeholder="Enter company name"
@@ -108,11 +110,12 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
             )}
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4 dark:text-white">
             <Typography variant="small" className="mb-2">
               Website
             </Typography>
             <Input
+             className="dark:text-white"
               type="url"
               {...register("website", {
                 required: "Website is required",
@@ -131,11 +134,12 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
             )}
           </div>
 
-          <div className="mt-4">
+          <div className="mt-4 dark:text-white">
             <Typography variant="small" className="mb-2">
               Image URL
             </Typography>
             <Input
+            className="dark:text-white"
               type="url"
               {...register("image", {
                 required: "Image URL is required",
@@ -153,11 +157,12 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
               </Typography>
             )}
           </div>
-          <div className="mt-4">
-            <Typography variant="small" className="mb-2">
+          <div className="mt-4 ">
+            <Typography variant="small" className="mb-2 dark:text-white">
               Category
             </Typography>
             <Select
+              className="text-white"
               value={watch("category")}
               onChange={(value) => setValue("category", value)}
               error={!!errors.category}
@@ -175,12 +180,13 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
             )}
           </div>
 
-          <div className="mt-4 flex gap-4">
-            <div className="w-1/2">
-              <Typography variant="small" className="mb-2">
+          <div className="mt-4 grid grid-cols-1 lg:grid-cols-2 gap-4 dark:text-white">
+            <div className="w-full lg:w-1/2">
+              <Typography variant="small" className="mb-2 dark:text-white">
                 Min Price
               </Typography>
               <Input
+                className="dark:text-white"
                 type="text"
                 {...register("minPrice", {
                   required: "Min Price is required",
@@ -198,11 +204,12 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
                 </Typography>
               )}
             </div>
-            <div className="w-1/2">
-              <Typography variant="small" className="mb-2">
+            <div className="w-full lg:w-1/2">
+              <Typography variant="small" className="mb-2 dark:text-white">
                 Max Price
               </Typography>
               <Input
+                className="dark:text-white"
                 type="text"
                 {...register("maxPrice", {
                   required: "Max Price is required",
@@ -223,10 +230,11 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
           </div>
 
           <div className="mt-4">
-            <Typography variant="small" className="mb-2">
+            <Typography variant="small" className="mb-2 dark:text-white">
               Description
             </Typography>
             <Textarea
+              className="dark:text-white"
               {...register("description", {
                 required: "Description is required",
               })}

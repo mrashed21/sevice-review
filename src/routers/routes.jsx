@@ -5,7 +5,9 @@ import MyReview from "../components/review/MyReview";
 import MyServices from "../components/service/MyService";
 import ServiceDetails from "../components/service/ServiceDetails";
 import AuthProvider from "../context/AuthProvaider";
+import Error from "../error/Error";
 import MainLayout from "../layouts/MainLayout";
+import AboutUs from "../pages/AboutUs";
 import AddService from "../pages/AddService";
 import Home from "../pages/Home";
 import Services from "../pages/Services";
@@ -19,6 +21,7 @@ const routes = createBrowserRouter([
         <MainLayout />
       </AuthProvider>
     ),
+    errorElement: <Error />,
     children: [
       { path: "/", element: <Home /> },
       { path: "/services", element: <Services /> },
@@ -50,6 +53,7 @@ const routes = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      { path: "/about", element: <AboutUs /> },
       { path: "/login", element: <Login /> },
       { path: "/register", element: <Register /> },
     ],

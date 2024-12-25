@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
@@ -8,6 +7,11 @@ const CountUpSection = () => {
   const [review, setReview] = useState([]);
   const [services, setServices] = useState([]);
   const [users, setUsers] = useState([]);
+
+  // Visibility states for triggering counts
+  const [usersInView, setUsersInView] = useState(false);
+  const [reviewsInView, setReviewsInView] = useState(false);
+  const [servicesInView, setServicesInView] = useState(false);
 
   // Fetch reviews
   useEffect(() => {
@@ -28,15 +32,33 @@ const CountUpSection = () => {
   // Fetch users
   useEffect(() => {
     axios
-      .get("http://localhost:4000/users") 
+      .get("http://localhost:4000/users")
       .then((res) => setUsers(res.data))
       .catch((err) => console.error(err));
   }, []);
 
   const stats = [
-    { id: 1, label: "Users", count: users.length },
-    { id: 2, label: "Reviews", count: review.length },
-    { id: 3, label: "Services", count: services.length },
+    {
+      id: 1,
+      label: "Users",
+      count: users.length,
+      inView: usersInView,
+      setInView: setUsersInView,
+    },
+    {
+      id: 2,
+      label: "Reviews",
+      count: review.length,
+      inView: reviewsInView,
+      setInView: setReviewsInView,
+    },
+    {
+      id: 3,
+      label: "Services",
+      count: services.length,
+      inView: servicesInView,
+      setInView: setServicesInView,
+    },
   ];
 
   const containerVariants = {
@@ -54,15 +76,16 @@ const CountUpSection = () => {
   };
 
   return (
-    <section className="py-10 bg-white">
+    <div className="">
+      <div className="py-10  w-11/12 mx-auto">
       <motion.div
         className="container mx-auto px-4"
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
+        viewport={{ once: true, amount: 0.2 }} 
       >
-        <h2 className="text-3xl font-semibold text-center mb-8">
+        <h2 className="text-3xl font-semibold text-center mb-8 dark:text-white">
           Platform Stats
         </h2>
         <motion.div
@@ -74,19 +97,17 @@ const CountUpSection = () => {
               key={stat.id}
               className="p-6 bg-gray-100 rounded-lg shadow-lg"
               variants={itemVariants}
+              whileHover={{ scale: 1.1 }} 
+              whileTap={{ scale: 0.9 }} 
+              onViewportEnter={() => stat.setInView(true)} 
+              viewport={{ once: true }}
             >
               <h3 className="text-4xl font-bold text-blue-500">
                 <CountUp
-                  start={0}
+                  start={stat.inView ? 0 : null} 
                   end={stat.count}
                   duration={2.5}
-                  delay={3}
                   useEasing={true}
-                  onEnd={() => {
-                    setInterval(() => {
-                      stat.count += 1;
-                    }, 1000);
-                  }}
                 />
               </h3>
               <p className="text-lg font-medium text-gray-600 mt-2">
@@ -96,7 +117,8 @@ const CountUpSection = () => {
           ))}
         </motion.div>
       </motion.div>
-    </section>
+    </div>
+    </div>
   );
 };
 

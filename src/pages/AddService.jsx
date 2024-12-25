@@ -8,15 +8,17 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import axios from "axios";
+import { format } from "date-fns";
 import { useContext } from "react";
 import "react-datepicker/dist/react-datepicker.css";
 import { Helmet } from "react-helmet-async";
 import { Controller, useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthProvaider";
 
 const AddService = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
@@ -46,8 +48,9 @@ const AddService = () => {
     "Dental Services",
     "Hair Stylists",
     "Makeup Artists",
+    "Others",
   ];
-
+  const navigate = useNavigate();
   const onSubmit = async (data) => {
     const serviceData = {
       ...data,
@@ -57,11 +60,19 @@ const AddService = () => {
 
     try {
       console.log(serviceData);
-      await axios.post("http://localhost:4000/service/add", serviceData);
+      await axios.post("http://localhost:4000/service/add", serviceData, {
+        withCredentials: true,
+      });
+
       toast.success("Service added successfully!");
       reset();
+      navigate("/services");
     } catch (error) {
-      toast.error("Failed to add service. Please try again.");
+      if (error.response?.status === 401) {
+        logOut();
+      } else {
+        console.error("Error fetching services:", error.message);
+      }
     }
   };
 
@@ -88,22 +99,9 @@ const AddService = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="space-y-4 dark:text-white"
           >
-            {/* <div className="dark:text-white">
-              <Input
-              className="dark:text-white"
-                label="Service Image URL"
-                {...register("image", {
-                  required: "Image URL is required",
-                  validate: validateUrl,
-                })}
-                error={!!errors.image}
-              />
-              {errors.image && (
-                <Typography color="red">{errors.image.message}</Typography>
-              )}
-            </div> */}
             <div>
               <Input
+                className="dark:text-white"
                 label={
                   <span className="dark:text-white">Service Image URL</span>
                 }
@@ -122,6 +120,7 @@ const AddService = () => {
 
             <div>
               <Input
+                className="dark:text-white"
                 label={<span className="dark:text-white">Service Title</span>}
                 {...register("title", {
                   required: "Service title is required",
@@ -135,6 +134,7 @@ const AddService = () => {
 
             <div>
               <Input
+                className="dark:text-white"
                 label={<span className="dark:text-white">Company Name</span>}
                 {...register("company", {
                   required: "Company name is required",
@@ -148,6 +148,7 @@ const AddService = () => {
 
             <div>
               <Input
+                className="dark:text-white"
                 label={<span className="dark:text-white">Website URL</span>}
                 {...register("website", {
                   required: "Website URL is required",
@@ -162,7 +163,7 @@ const AddService = () => {
 
             <div>
               <Textarea
-              className="text-white"
+                className="dark:text-white"
                 label={<span className="dark:text-white">Description</span>}
                 {...register("description", {
                   required: "Description is required",
@@ -176,25 +177,6 @@ const AddService = () => {
               )}
             </div>
 
-            {/* <div>
-              <Controller
-                name="category"
-                control={control}
-                rules={{ required: "Category is required" }}
-                render={({ field }) => (
-                  <Select label="Select Category" {...field}>
-                    {categories.map((category) => (
-                      <Option key={category} value={category}>
-                        {category}
-                      </Option>
-                    ))}
-                  </Select>
-                )}
-              />
-              {errors.category && (
-                <Typography color="red">{errors.category.message}</Typography>
-              )}
-            </div> */}
             <div className="dark:text-white dark:bg-[#1E293B]">
               <Controller
                 name="category"
@@ -226,6 +208,7 @@ const AddService = () => {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               <div>
                 <Input
+                  className="dark:text-white"
                   label={<span className="dark:text-white">Minimum Price</span>}
                   type="text"
                   {...register("minPrice", {
@@ -244,6 +227,7 @@ const AddService = () => {
 
               <div>
                 <Input
+                  className="dark:text-white"
                   label={<span className="dark:text-white">Maximum Price</span>}
                   type="text"
                   {...register("maxPrice", {
@@ -263,9 +247,17 @@ const AddService = () => {
                 )}
               </div>
             </div>
-
             <div>
-              <Input className="dark:text-white"
+              <Input
+                className="dark:text-white"
+                label={<span className="dark:text-white">Added On</span>}
+                defaultValue={format(new Date(), "PPP")}
+                readOnly
+              />
+            </div>
+            <div>
+              <Input
+                className="dark:text-white"
                 label={<span className="dark:text-white">User Email</span>}
                 defaultValue={user.email}
                 readOnly

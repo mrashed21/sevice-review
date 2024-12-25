@@ -36,8 +36,7 @@ const Navbar = () => {
       <nav className="bg-white dark:bg-gray-900 shadow-lg">
         <div className="px-4 lg:w-11/12 mx-auto flex justify-between items-center py-1">
           {/* Navbar start */}
-          {/* <img className="w-12" src={logo} alt="logo" />
-           */}
+          
           <NavLink className="text-3xl text-gray-900 dark:text-gray-200">
             <FaUsers />
           </NavLink>

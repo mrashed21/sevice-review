@@ -1,4 +1,5 @@
 /* eslint-disable react/prop-types */
+// /* eslint-disable react/prop-types */
 import {
   Button,
   Dialog,
@@ -12,11 +13,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import ReactStars from "react-rating-stars-component";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function ReviewUpdate({ open, reviewId, handleOpen }) {
-  const navigate = useNavigate();
   const [error, setError] = useState("");
   const {
     register,
@@ -29,15 +28,13 @@ export default function ReviewUpdate({ open, reviewId, handleOpen }) {
   // Fetch Review Data
   useEffect(() => {
     if (reviewId) {
-      const fetchServiceData = async () => {
+      const fetchReviewData = async () => {
         try {
           const response = await axios.get(
             `http://localhost:4000/review/${reviewId}`
           );
           const review = response.data;
-
           // Set form values
-
           setValue("reviewText", review.reviewText);
 
           const rating = review.rating?.$numberInt
@@ -48,7 +45,7 @@ export default function ReviewUpdate({ open, reviewId, handleOpen }) {
           console.error("Error fetching review:", error);
         }
       };
-      fetchServiceData();
+      fetchReviewData();
     }
   }, [reviewId, setValue]);
 
@@ -64,46 +61,50 @@ export default function ReviewUpdate({ open, reviewId, handleOpen }) {
       return;
     }
     setError("");
-
     try {
       const updatedData = {
         ...data,
         rating: { $numberInt: data.rating.toString() },
       };
-
       await axios.put(
         `http://localhost:4000/review/update/${reviewId}`,
         updatedData
       );
-
-      toast.success("Service updated successfully!");
+      toast.success("Review updated successfully!");
       handleOpen();
-      navigate("/services");
     } catch (error) {
-      toast.error("Failed to update service!");
+      toast.error("Failed to update Review!");
       console.error("Error updating service:", error);
     }
   };
 
   return (
-    <Dialog size="md" open={open} handler={handleOpen} className="p-4">
+    <Dialog
+      size="md"
+      open={open}
+      handler={handleOpen}
+      className="p-4  dark:bg-[#21252ea7]"
+    >
       <div className="">
-        <DialogHeader className="text-center">Update Review</DialogHeader>
+        <DialogHeader className="text-center text-white ">
+          Update Review
+        </DialogHeader>
       </div>
       <DialogBody>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="mt-4">
-            <Typography variant="lead" className="mb-2">
+            <Typography variant="lead" className="mb-2 dark:text-white">
               Review Text
             </Typography>
             <Textarea
+              className="dark:text-white"
               {...register("reviewText")}
               placeholder="Enter review text"
             />
           </div>
 
           <div className="mt-4">
-            <Typography variant="lead" className="mb-2">
+            <Typography variant="lead" className="mb-2 dark:text-white">
               Rating
             </Typography>
             <ReactStars

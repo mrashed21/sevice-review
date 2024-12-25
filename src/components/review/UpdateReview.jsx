@@ -12,11 +12,9 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import ReactStars from "react-rating-stars-component";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 export default function UpdateReview({ open, reviewId, handleOpen }) {
-  const navigate = useNavigate();
   const [error, setError] = useState("");
 
   const {
@@ -30,7 +28,7 @@ export default function UpdateReview({ open, reviewId, handleOpen }) {
   // Fetch Review Data
   useEffect(() => {
     if (reviewId) {
-      const fetchServiceData = async () => {
+      const fetchReviewData = async () => {
         try {
           const response = await axios.get(
             `http://localhost:4000/review/${reviewId}`
@@ -54,7 +52,7 @@ export default function UpdateReview({ open, reviewId, handleOpen }) {
           console.error("Error fetching review:", error);
         }
       };
-      fetchServiceData();
+      fetchReviewData();
     }
   }, [reviewId, setValue]);
 
@@ -84,7 +82,6 @@ export default function UpdateReview({ open, reviewId, handleOpen }) {
 
       toast.success("Service updated successfully!");
       handleOpen();
-      navigate("/services");
     } catch (error) {
       toast.error("Failed to update service!");
       console.error("Error updating service:", error);
@@ -96,63 +93,56 @@ export default function UpdateReview({ open, reviewId, handleOpen }) {
       size="lg"
       open={open}
       handler={handleOpen}
-      className="p-4 overflow-y-scroll size-11/12"
+      className="p-4  dark:bg-[#293548] size-11/12"
     >
       <div className="flex justify-center items-center">
-        <DialogHeader className="text-center">Update Review</DialogHeader>
+        <DialogHeader className="text-center dark:text-white">
+          Update Review
+        </DialogHeader>
       </div>
       <DialogBody>
         <form
           onSubmit={handleSubmit(onSubmit)}
           className="flex items-center justify-between gap-4"
         >
-          <div className="mt-4 w-1/2">
+          <div className=" w-1/2">
             <img
               src={watch("image")}
               alt="service"
               className="w-full h-48 object-cover rounded-lg"
             />
             <div>
-              <Typography variant="lead" color="black" className="mb-2">
+              <Typography
+                variant="lead"
+                color="black"
+                className="mb-2 dark:text-white"
+              >
                 Service Title
               </Typography>
-              <Typography variant="paragraph" color="black" className="mb-2">
+              <Typography
+                variant="paragraph"
+                color="black"
+                className="mb-2 text-white"
+              >
                 {watch("title")}
               </Typography>
             </div>
           </div>
 
           <div className="w-1/2">
-            <div className="mt-4">
-              <Typography variant="lead" className="mb-2">
-                Service Company
-              </Typography>
-              <Typography variant="paragraph" className="mb-2">
-                {watch("company")}
-              </Typography>
-            </div>
-
-            <div className="mt-4">
-              <Typography variant="lead" className="mb-2">
-                Category
-              </Typography>
-              <Typography variant="paragraph" className="mb-2">
-                {watch("category")}
-              </Typography>
-            </div>
-
-            <div className="mt-4">
-              <Typography variant="lead" className="mb-2">
+            <div className="">
+              <Typography variant="lead" className="mb-2 dark:text-white">
                 Review Text
               </Typography>
               <Textarea
+                className="dark:text-white"
                 {...register("reviewText")}
                 placeholder="Enter review text"
               />
             </div>
 
             <div className="mt-4">
-              <Typography variant="lead" className="mb-2">
+              <Typography variant="lead" className="mb-2 dark:text-white">
                 Rating
               </Typography>
               <ReactStars

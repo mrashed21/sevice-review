@@ -95,12 +95,19 @@ const AuthProvider = ({ children }) => {
   // Unsubcribe
   useEffect(() => {
     const unSubcribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) {
-        setUser(currentUser);
-      } else {
-        setUser(null);
-      }
       setLoading(false);
+      setUser(currentUser);
+      if (currentUser?.email) {
+        axios.post(
+          "http://localhost:4000/jwt",
+          { email: currentUser?.email },
+          { withCredentials: true }
+        );
+      } else {
+        axios.get("http://localhost:4000/logout", {
+          withCredentials: true,
+        });
+      }
     });
     return () => {
       unSubcribe();
