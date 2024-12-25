@@ -38,17 +38,19 @@ const Login = () => {
       });
   };
 
-  // Handle Google Login
-  const handleGoogleLogin = async () => {
-    try {
-      const result = await handleLoginGoogle();
-      setUser(result.user);
-      toast.success("Google login successful!");
-      navigate(redirectTo);
-    } catch {
-      toast.error("Something went wrong! Try again.");
-    }
+  const handleGoogleLogin = () => {
+    handleLoginGoogle()
+      .then((user) => {
+        setUser(user); 
+        toast.success("Google login successful!");
+        navigate(redirectTo); 
+      })
+      .catch(() => {
+        toast.error("Something went wrong! Try again.");
+      });
   };
+  
+
 
   // Handle Password Reset
   const handlePasswordReset = async () => {

@@ -10,9 +10,10 @@ import {
   updateProfile,
 } from "firebase/auth";
 
+import axios from "axios";
 import { createContext, useEffect, useState } from "react";
-import { auth } from "../firebase/firebase.config";
 import { toast } from "react-toastify";
+import { auth } from "../firebase/firebase.config";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext();
@@ -22,7 +23,13 @@ const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   //   Register with Email
   const handleRegister = (email, password) => {
-    return createUserWithEmailAndPassword(auth, email, password);
+    const result = createUserWithEmailAndPassword(auth, email, password);
+    axios.post("http://localhost:4000/users/add", {
+      email: result?.user?.email,
+      name: result?.user?.name,
+      photoURL: result?.user?.photoURL,
+    });
+    return result;
   };
   // Login With Email
   const handleLogin = (email, password) => {
@@ -37,9 +44,31 @@ const AuthProvider = ({ children }) => {
   };
   //   Google Login
   const googleProvider = new GoogleAuthProvider();
+
   const handleLoginGoogle = () => {
-    return signInWithPopup(auth, googleProvider);
+    return signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        const user = result.user;
+        axios
+          .post("http://localhost:4000/users/add", {
+            email: user?.email,
+            name: user?.displayName,
+            photoURL: user?.photoURL,
+          })
+          .then(() => {
+            // console.log("User info sent to database");
+          })
+          .catch((error) => {
+            console.error("Error saving user info:", error);
+          });
+        return user;
+      })
+      .catch((error) => {
+        console.error("Google login failed:", error);
+        throw error;
+      });
   };
+
   //   Reset Password
   const handleReseTPassword = (email) => {
     return sendPasswordResetEmail(auth, email);
@@ -47,7 +76,7 @@ const AuthProvider = ({ children }) => {
   // Logout
   const logOut = () => {
     return signOut(auth).then(() => {
-     toast.success("Logout Successfully")
+      toast.success("Logout Successfully");
     });
   };
 
