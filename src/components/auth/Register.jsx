@@ -1,5 +1,6 @@
 import { Button, Card, Input, Typography } from "@material-tailwind/react";
 import { useContext, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
@@ -70,111 +71,117 @@ const Register = () => {
   };
 
   return (
-    <div className="  py-10">
-      <div className="px-5 md:px-0 md:w-6/12 mx-auto">
-        <Card className="p-6 shadow-md">
-          <Typography variant="h3" className="text-center font-bold mb-6">
-            Register Now
-          </Typography>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="mb-4">
-              <Input
-                type="text"
-                label="Name"
-                {...register("name", { required: "Name is required" })}
-              />
-              {errors.name && (
-                <Typography variant="small" color="red">
-                  {errors.name.message}
-                </Typography>
-              )}
-            </div>
+    <>
+      <Helmet>
+        <title>Register</title>
+      </Helmet>
 
-            <div className="mb-4">
-              <Input
-                type="text"
-                label="Image URL"
-                {...register("profile", {
-                  required: "Image URL is required.",
-                  pattern: {
-                    value:
-                      /^(https?):\/\/[^\s$.?#].[^\s]*\.(jpg|jpeg|png|gif|bmp)$/i,
-                    message:
-                      "Please enter a valid image URL (e.g., .jpg, .jpeg, .png).",
-                  },
-                })}
-              />
-              {errors.profile && (
-                <Typography variant="small" color="red">
-                  {errors.profile.message}
-                </Typography>
-              )}
-            </div>
-
-            <div className="mb-4">
-              <Input
-                type="email"
-                label="Email"
-                {...register("email", {
-                  required: "Email is required",
-                  pattern: {
-                    value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                    message: "Invalid email format",
-                  },
-                })}
-              />
-              {errors.email && (
-                <Typography variant="small" color="red">
-                  {errors.email.message}
-                </Typography>
-              )}
-            </div>
-
-            <div className="mb-4 relative">
-              <Input
-                type={showPassword ? "text" : "password"}
-                label="Password"
-                {...register("password", {
-                  required: "Password is required",
-                })}
-              />
-              <button
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-5 transform -translate-y-2/4 text-xl"
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
-              {error && (
-                <Typography variant="small" color="red" className="mt-2">
-                  {error}
-                </Typography>
-              )}
-            </div>
-            <div className="mb-4">
-              <Typography variant="small">
-                All Ready Have an Accont?{" "}
-                <Link to="/login" className="text-red-500 font-semibold">
-                  Login
-                </Link>
-              </Typography>
-            </div>
-            <Button type="submit" fullWidth>
+      <div className="  py-10">
+        <div className="px-5 md:px-0 md:w-6/12 mx-auto">
+          <Card className="p-6 shadow-md">
+            <Typography variant="h3" className="text-center font-bold mb-6">
               Register Now
-            </Button>
-          </form>
+            </Typography>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="mb-4">
+                <Input
+                  type="text"
+                  label="Name"
+                  {...register("name", { required: "Name is required" })}
+                />
+                {errors.name && (
+                  <Typography variant="small" color="red">
+                    {errors.name.message}
+                  </Typography>
+                )}
+              </div>
 
-          <Button
-            variant="outlined"
-            fullWidth
-            className="mt-4 flex items-center justify-center"
-            onClick={handleGoogleLogin}
-          >
-            <FcGoogle className="mr-2 text-xl" /> Sign Up with Google
-          </Button>
-        </Card>
+              <div className="mb-4">
+                <Input
+                  type="text"
+                  label="Image URL"
+                  {...register("profile", {
+                    required: "Image URL is required.",
+                    pattern: {
+                      value:
+                        /^(https?):\/\/[^\s$.?#].[^\s]*\.(jpg|jpeg|png|gif|bmp)$/i,
+                      message:
+                        "Please enter a valid image URL (e.g., .jpg, .jpeg, .png).",
+                    },
+                  })}
+                />
+                {errors.profile && (
+                  <Typography variant="small" color="red">
+                    {errors.profile.message}
+                  </Typography>
+                )}
+              </div>
+
+              <div className="mb-4">
+                <Input
+                  type="email"
+                  label="Email"
+                  {...register("email", {
+                    required: "Email is required",
+                    pattern: {
+                      value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
+                      message: "Invalid email format",
+                    },
+                  })}
+                />
+                {errors.email && (
+                  <Typography variant="small" color="red">
+                    {errors.email.message}
+                  </Typography>
+                )}
+              </div>
+
+              <div className="mb-4 relative">
+                <Input
+                  type={showPassword ? "text" : "password"}
+                  label="Password"
+                  {...register("password", {
+                    required: "Password is required",
+                  })}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-5 transform -translate-y-2/4 text-xl"
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+                {error && (
+                  <Typography variant="small" color="red" className="mt-2">
+                    {error}
+                  </Typography>
+                )}
+              </div>
+              <div className="mb-4">
+                <Typography variant="small">
+                  All Ready Have an Accont?{" "}
+                  <Link to="/login" className="text-red-500 font-semibold">
+                    Login
+                  </Link>
+                </Typography>
+              </div>
+              <Button type="submit" fullWidth>
+                Register Now
+              </Button>
+            </form>
+
+            <Button
+              variant="outlined"
+              fullWidth
+              className="mt-4 flex items-center justify-center"
+              onClick={handleGoogleLogin}
+            >
+              <FcGoogle className="mr-2 text-xl" /> Sign Up with Google
+            </Button>
+          </Card>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

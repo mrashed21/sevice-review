@@ -1,10 +1,10 @@
 
 import { Avatar, Button, Switch } from "@material-tailwind/react";
 import { useContext, useEffect, useState } from "react";
+import { FaUsers } from "react-icons/fa6";
 import { IoMdClose, IoMdMenu } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { AuthContext } from "../context/AuthProvaider";
-import logo from "/logo.png";
 const Navbar = () => {
   const { user, logOut } = useContext(AuthContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -27,73 +27,99 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  // Active link style
+  const activeStyle = "text-blue-500 font-medium";
+  const normalStyle = "text-gray-900 dark:text-gray-200 hover:text-gray-700";
+
   return (
     <>
       <nav className="bg-white dark:bg-gray-900 shadow-lg">
         <div className="px-4 lg:w-11/12 mx-auto flex justify-between items-center py-1">
           {/* Navbar start */}
-          <img className="w-12" src={logo} alt="logo" />
+          {/* <img className="w-12" src={logo} alt="logo" />
+           */}
+          <NavLink className="text-3xl text-gray-900 dark:text-gray-200">
+            <FaUsers />
+          </NavLink>
 
           {/* Navbar center */}
           {user && user?.email ? (
             <div className="hidden lg:flex space-x-4">
-              <Link
+              <NavLink
                 to="/"
-                className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+                className={({ isActive }) =>
+                  isActive ? activeStyle : normalStyle
+                }
               >
                 Home
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/services"
-                className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+                className={({ isActive }) =>
+                  isActive ? activeStyle : normalStyle
+                }
               >
                 Service
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/service/add"
-                className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+                className={({ isActive }) =>
+                  isActive ? activeStyle : normalStyle
+                }
               >
                 Add Service
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/service/me"
-                className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+                className={({ isActive }) =>
+                  isActive ? activeStyle : normalStyle
+                }
               >
                 My Service
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/review/me"
-                className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+                className={({ isActive }) =>
+                  isActive ? activeStyle : normalStyle
+                }
               >
                 My Review
-              </Link>
-              <Link
-                to="/"
-                className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+              </NavLink>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive ? activeStyle : normalStyle
+                }
               >
                 About us
-              </Link>
+              </NavLink>
             </div>
           ) : (
             <div className="hidden lg:flex space-x-4">
-              <Link
+              <NavLink
                 to="/"
-                className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+                className={({ isActive }) =>
+                  isActive ? activeStyle : normalStyle
+                }
               >
                 Home
-              </Link>
-              <Link
+              </NavLink>
+              <NavLink
                 to="/services"
-                className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+                className={({ isActive }) =>
+                  isActive ? activeStyle : normalStyle
+                }
               >
                 Service
-              </Link>
-              <Link
-                to="/"
-                className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+              </NavLink>
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  isActive ? activeStyle : normalStyle
+                }
               >
                 About us
-              </Link>
+              </NavLink>
             </div>
           )}
 
@@ -122,18 +148,22 @@ const Navbar = () => {
               </>
             ) : (
               <div className="flex space-x-4 items-center">
-                <Link
+                <NavLink
                   to="/login"
-                  className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+                  className={({ isActive }) =>
+                    isActive ? activeStyle : normalStyle
+                  }
                 >
                   Login
-                </Link>
-                <Link
+                </NavLink>
+                <NavLink
                   to="/register"
-                  className="text-gray-900 dark:text-gray-200 hover:text-gray-700"
+                  className={({ isActive }) =>
+                    isActive ? activeStyle : normalStyle
+                  }
                 >
                   Register
-                </Link>
+                </NavLink>
               </div>
             )}
 
@@ -145,8 +175,9 @@ const Navbar = () => {
                 color="blue"
               />
             </div>
+
             {/*Dropdown Navbar  */}
-            <div className="lg:hidden ">
+            <div className="lg:hidden">
               <div className="relative flex items-center">
                 <button
                   onClick={handleDropdown}
@@ -156,30 +187,95 @@ const Navbar = () => {
                 </button>
 
                 {isOpen && (
-                  <div className="absolute top-10 -right-2 w-96 h-96 bg-white dark:bg-gray-800 shadow-md ">
+                  <div className="absolute top-10 -z-10 -right-4 w-96 flex flex-col items-center justify-center py-5 h-96 bg-white dark:bg-gray-800 rounded-l-lg shadow-md">
+                  
                     <Switch
                       checked={darkMode}
                       onChange={() => setDarkMode(!darkMode)}
                       color="blue"
+                      
                     />
-                    <Link
-                      to="/"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      Home
-                    </Link>
-                    <Link
-                      to="/"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      Service
-                    </Link>
-                    <Link
-                      to="/"
-                      className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-                    >
-                      About us
-                    </Link>
+                    
+                    {user && user?.email ? (
+                      <div className=" flex flex-col items-center space-y-4 mt-5">
+                        <NavLink
+                          to="/"
+                          className={({ isActive }) =>
+                            isActive ? activeStyle : normalStyle
+                          }
+                        >
+                          Home
+                        </NavLink>
+                        <NavLink
+                          to="/services"
+                          className={({ isActive }) =>
+                            isActive ? activeStyle : normalStyle
+                          }
+                        >
+                          Service
+                        </NavLink>
+                        <NavLink
+                          to="/service/add"
+                          className={({ isActive }) =>
+                            isActive ? activeStyle : normalStyle
+                          }
+                        >
+                          Add Service
+                        </NavLink>
+                        <NavLink
+                          to="/service/me"
+                          className={({ isActive }) =>
+                            isActive ? activeStyle : normalStyle
+                          }
+                        >
+                          My Service
+                        </NavLink>
+                        <NavLink
+                          to="/review/me"
+                          className={({ isActive }) =>
+                            isActive ? activeStyle : normalStyle
+                          }
+                        >
+                          My Review
+                        </NavLink>
+                        <NavLink
+                          to="/about"
+                          className={({ isActive }) =>
+                            isActive ? activeStyle : normalStyle
+                          }
+                        >
+                          About us
+                        </NavLink>
+                      </div>
+                    ) : (
+                      <div className=" flex flex-col items-center space-y-4">
+                        <NavLink
+                          to="/"
+                          className={({ isActive }) =>
+                            isActive ? activeStyle : normalStyle
+                          }
+                        >
+                          Home
+                        </NavLink>
+                        <NavLink
+                          to="/services"
+                          className={({ isActive }) =>
+                            isActive ? activeStyle : normalStyle
+                          }
+                        >
+                          Service
+                        </NavLink>
+                        <NavLink
+                          to="/about"
+                          className={({ isActive }) =>
+                            isActive ? activeStyle : normalStyle
+                          }
+                        >
+                          About us
+                        </NavLink>
+                      </div>
+                    )}
+                    <div className="mt-4">
                     <Button
                       color="blue"
                       onClick={() => {
@@ -188,6 +284,7 @@ const Navbar = () => {
                     >
                       Logout
                     </Button>
+                    </div>
                   </div>
                 )}
               </div>

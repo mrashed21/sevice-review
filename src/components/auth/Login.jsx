@@ -6,12 +6,12 @@ import {
   Typography,
 } from "@material-tailwind/react";
 import { useContext, useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthProvaider";
-
 const Login = () => {
   const { handleLogin, handleLoginGoogle, handleReseTPassword, setUser } =
     useContext(AuthContext);
@@ -41,16 +41,14 @@ const Login = () => {
   const handleGoogleLogin = () => {
     handleLoginGoogle()
       .then((user) => {
-        setUser(user); 
+        setUser(user);
         toast.success("Google login successful!");
-        navigate(redirectTo); 
+        navigate(redirectTo);
       })
       .catch(() => {
         toast.error("Something went wrong! Try again.");
       });
   };
-  
-
 
   // Handle Password Reset
   const handlePasswordReset = async () => {
@@ -71,6 +69,9 @@ const Login = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Login</title>
+      </Helmet>
       {/* Login Form */}
       <div className="py-10 min-h-screen flex items-center justify-center">
         <Card className="p-6 md:w-1/2 w-full shadow-lg">

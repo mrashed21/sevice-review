@@ -1,5 +1,6 @@
 import { Spinner } from "@material-tailwind/react";
 import { useEffect, useState } from "react";
+import { HelmetProvider } from "react-helmet-async";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import Footer from "../common/Footer";
@@ -21,16 +22,18 @@ const MainLayout = () => {
   }
   return (
     <>
-      <header className="sticky top-0 z-50">
-        <Navbar />
-      </header>
-      <main>
-        <Outlet />
-      </main>
-      <footer>
-        <Footer />
-      </footer>
-      <ToastContainer />
+      <HelmetProvider>
+        <header className="sticky top-0 z-50">
+          <Navbar />
+        </header>
+        <main>
+          <Outlet />
+        </main>
+        <footer>
+          <Footer />
+        </footer>
+        <ToastContainer />
+      </HelmetProvider>
     </>
   );
 };
