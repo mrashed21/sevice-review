@@ -1,4 +1,3 @@
-
 /* eslint-disable react/prop-types */
 import {
   Button,
@@ -38,7 +37,7 @@ export default function UpdateReview({
       const fetchReviewData = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:4000/review/${reviewId}`
+            `https://server-seven-beta-45.vercel.app/review/${reviewId}`
           );
           const review = response.data;
 
@@ -82,7 +81,7 @@ export default function UpdateReview({
       };
 
       await axios.put(
-        `http://localhost:4000/review/update/${reviewId}`,
+        `https://server-seven-beta-45.vercel.app/review/update/${reviewId}`,
         updatedData
       );
 

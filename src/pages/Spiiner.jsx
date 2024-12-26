@@ -4,7 +4,7 @@ const Spinner = () => {
   const dots = [...Array(8)];
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-black">
+    <div className="flex items-center justify-center min-h-screen">
       <div className="relative flex items-center justify-center w-16 h-16">
         {dots.map((_, index) => {
           const angle = (360 / dots.length) * index;

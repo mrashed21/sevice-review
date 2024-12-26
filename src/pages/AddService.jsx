@@ -60,16 +60,20 @@ const AddService = () => {
 
     try {
       console.log(serviceData);
-      await axios.post("http://localhost:4000/service/add", serviceData, {
-        withCredentials: true,
-      });
+      await axios.post(
+        "https://server-seven-beta-45.vercel.app/service/add",
+        serviceData,
+        {
+          withCredentials: true,
+        }
+      );
 
       toast.success("Service added successfully!");
       reset();
       navigate("/services");
     } catch (error) {
       if (error.response?.status === 401) {
-        logOut();
+        // logOut();
       } else {
         console.error("Error fetching services:", error.message);
       }

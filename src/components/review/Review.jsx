@@ -23,7 +23,9 @@ const Review = ({ serviceId, user, service }) => {
   // Fetch reviews
   const fetchReviews = async () => {
     try {
-      const res = await axios.get(`http://localhost:4000/reviews/${serviceId}`);
+      const res = await axios.get(
+        `https://server-seven-beta-45.vercel.app/reviews/${serviceId}`
+      );
       setReviews(res.data);
     } catch (error) {
       console.error("Failed to fetch reviews", error);
@@ -60,7 +62,10 @@ const Review = ({ serviceId, user, service }) => {
     };
 
     try {
-      await axios.post("http://localhost:4000/reviews/add", newReview);
+      await axios.post(
+        "https://server-seven-beta-45.vercel.app/reviews/add",
+        newReview
+      );
       await fetchReviews();
       setReviewText("");
       setRating(0);
@@ -79,7 +84,9 @@ const Review = ({ serviceId, user, service }) => {
         dangerMode: true,
       }).then(async (willDelete) => {
         if (willDelete) {
-          await axios.delete(`http://localhost:4000/review/delete/${id}`);
+          await axios.delete(
+            `https://server-seven-beta-45.vercel.app/review/delete/${id}`
+          );
           await fetchReviews();
           swal("DELETE successful!", {
             icon: "success",

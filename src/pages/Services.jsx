@@ -1,4 +1,3 @@
-
 import { Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -43,14 +42,17 @@ const Services = () => {
     const fetchServices = async () => {
       setLoading(true);
       try {
-        const res = await axios.get("http://localhost:4000/services", {
-          params: {
-            keyword,
-            category: selectedCategory,
-            page: currentPage,
-            limit: itemsPerPage,
-          },
-        });
+        const res = await axios.get(
+          "https://server-seven-beta-45.vercel.app/services",
+          {
+            params: {
+              keyword,
+              category: selectedCategory,
+              page: currentPage,
+              limit: itemsPerPage,
+            },
+          }
+        );
         setServices(res.data.services);
         setTotalPages(Math.ceil(res.data.total / itemsPerPage));
       } catch (err) {

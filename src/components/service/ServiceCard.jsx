@@ -47,7 +47,7 @@ const ServiceCard = ({ service }) => {
         <img
           src={service.image}
           alt={service.title}
-          className="w-full object-cover rounded-t-lg"
+          className="w-full h-40 object-cover rounded-t-lg"
         />
         <CardBody className="-mt-3 ">
           <Typography variant="h5" className="font-bold">

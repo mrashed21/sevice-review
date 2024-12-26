@@ -40,7 +40,9 @@ const ServiceDetails = () => {
   useEffect(() => {
     const fetchService = async () => {
       try {
-        const res = await axios.get(`http://localhost:4000/service/${id}`);
+        const res = await axios.get(
+          `https://server-seven-beta-45.vercel.app/service/${id}`
+        );
         setService(res.data);
         setLoading(false);
       } catch (error) {

@@ -21,10 +21,10 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-    // Register with Email
+  // Register with Email
   const handleRegister = (email, password) => {
     const result = createUserWithEmailAndPassword(auth, email, password);
-    axios.post("http://localhost:4000/users/add", {
+    axios.post("https://server-seven-beta-45.vercel.app/users/add", {
       email: result?.user?.email,
       name: result?.user?.name,
       photoURL: result?.user?.photoURL,
@@ -50,7 +50,7 @@ const AuthProvider = ({ children }) => {
       .then((result) => {
         const user = result.user;
         axios
-          .post("http://localhost:4000/users/add", {
+          .post("https://server-seven-beta-45.vercel.app/users/add", {
             email: user?.email,
             name: user?.displayName,
             photoURL: user?.photoURL,
@@ -99,12 +99,12 @@ const AuthProvider = ({ children }) => {
       setUser(currentUser);
       if (currentUser?.email) {
         axios.post(
-          "http://localhost:4000/jwt",
+          "https://server-seven-beta-45.vercel.app/jwt",
           { email: currentUser?.email },
           { withCredentials: true }
         );
       } else {
-        axios.get("http://localhost:4000/logout", {
+        axios.get("https://server-seven-beta-45.vercel.app/logout", {
           withCredentials: true,
         });
       }

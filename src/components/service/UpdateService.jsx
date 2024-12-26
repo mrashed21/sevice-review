@@ -31,7 +31,7 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
       const fetchServiceData = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:4000/service/${selectedId}`
+            `https://server-seven-beta-45.vercel.app/service/${selectedId}`
           );
           const service = response.data;
 
@@ -54,7 +54,7 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
   const onSubmit = async (data) => {
     try {
       await axios.put(
-        `http://localhost:4000/service/update/${selectedId}`,
+        `https://server-seven-beta-45.vercel.app/service/update/${selectedId}`,
         data
       );
       toast.success("Service updated successfully!");
@@ -97,7 +97,7 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
               Company
             </Typography>
             <Input
-             className="dark:text-white"
+              className="dark:text-white"
               type="text"
               {...register("company", { required: "Company is required" })}
               placeholder="Enter company name"
@@ -115,7 +115,7 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
               Website
             </Typography>
             <Input
-             className="dark:text-white"
+              className="dark:text-white"
               type="url"
               {...register("website", {
                 required: "Website is required",
@@ -139,7 +139,7 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
               Image URL
             </Typography>
             <Input
-            className="dark:text-white"
+              className="dark:text-white"
               type="url"
               {...register("image", {
                 required: "Image URL is required",

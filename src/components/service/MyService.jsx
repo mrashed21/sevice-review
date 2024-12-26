@@ -27,7 +27,7 @@ const MyServices = () => {
     const fetchServices = async () => {
       try {
         const res = await axios.get(
-          `http://localhost:4000/service/me/${user.email}`,
+          `https://server-seven-beta-45.vercel.app/service/me/${user.email}`,
           {
             withCredentials: true,
           }
@@ -36,7 +36,7 @@ const MyServices = () => {
         setLoading(false);
       } catch (error) {
         if (error.response?.status === 401) {
-          logOut();
+          // logOut();
         } else {
           console.error("Error fetching services:", error.message);
         }
@@ -61,7 +61,9 @@ const MyServices = () => {
         dangerMode: true,
       }).then((willDelete) => {
         if (willDelete) {
-          axios.delete(`http://localhost:4000/service/delete/${id}`);
+          axios.delete(
+            `https://server-seven-beta-45.vercel.app/service/delete/${id}`
+          );
           const newServices = services.filter((service) => service._id !== id);
           setServices(newServices);
           swal("DELETE seccessfull!", {

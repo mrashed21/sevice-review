@@ -19,7 +19,7 @@ const MyReview = () => {
   const fetchReviews = async () => {
     try {
       const res = await axios.get(
-        `http://localhost:4000/reviews/me/${user.email}`,
+        `https://server-seven-beta-45.vercel.app/reviews/me/${user.email}`,
         {
           withCredentials: true,
         }
@@ -28,7 +28,7 @@ const MyReview = () => {
       setLoading(false);
     } catch (error) {
       if (error.response?.status === 401) {
-        logOut();
+        // logOut();
       } else {
         console.error("Error fetching services:", error.message);
       }
@@ -52,7 +52,9 @@ const MyReview = () => {
         dangerMode: true,
       }).then(async (willDelete) => {
         if (willDelete) {
-          await axios.delete(`http://localhost:4000/review/delete/${id}`);
+          await axios.delete(
+            `https://server-seven-beta-45.vercel.app/review/delete/${id}`
+          );
           await fetchReviews(); // Refresh reviews after deletion
           swal("DELETE successful!", {
             icon: "success",
@@ -75,7 +77,7 @@ const MyReview = () => {
   };
 
   const handleUpdateSuccess = () => {
-    fetchReviews(); // Refresh reviews after update
+    fetchReviews();
   };
 
   if (loading) {
