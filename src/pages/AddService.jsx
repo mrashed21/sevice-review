@@ -59,7 +59,6 @@ const AddService = () => {
     };
 
     try {
-      console.log(serviceData);
       await axios.post(
         "https://server-seven-beta-45.vercel.app/service/add",
         serviceData,
