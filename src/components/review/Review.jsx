@@ -132,7 +132,7 @@ const Review = ({ serviceId, user, service }) => {
               No reviews yet.
             </Typography>
           ) : (
-            <div className="grid grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
               {reviews.map((review) => (
                 <div key={review._id} className="border p-4 rounded-lg gap-4">
                   <div className="flex items-center gap-4">

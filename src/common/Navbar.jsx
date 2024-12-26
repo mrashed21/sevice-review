@@ -185,11 +185,12 @@ const Navbar = () => {
                 </button>
 
                 {isOpen && (
-                  <div className="absolute top-10 -z-10 -right-4 w-96 flex flex-col items-center justify-center py-5 h-96 bg-white dark:bg-gray-800 rounded-l-lg shadow-md">
+                  <div className="absolute top-10 -z-10 -right-4 w-96  flex flex-col items-center justify-center py-5 h-96 bg-white dark:bg-gray-800 rounded-l-lg shadow-md">
                     <Switch
                       checked={darkMode}
                       onChange={() => setDarkMode(!darkMode)}
                       color="blue"
+                      className="mb-5"
                     />
 
                     {user && user?.email ? (
@@ -254,7 +255,7 @@ const Navbar = () => {
                         </div>
                       </div>
                     ) : (
-                      <div className=" flex flex-col items-center space-y-4">
+                      <div className=" flex flex-col items-center mt-5 space-y-4">
                         <NavLink
                           to="/"
                           className={({ isActive }) =>

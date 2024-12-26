@@ -109,7 +109,7 @@ const MyReview = () => {
               reviews.map((review) => (
                 <div
                   key={review._id}
-                  className="border p-4 rounded-lg shadow-md flex flex-col lg:flex-row gap-7 justify-between items-center dark:bg-[#1E293B]"
+                  className="border lg:p-4 rounded-lg shadow-md flex flex-col lg:flex-row gap-7 justify-between items-center dark:bg-[#1E293B]"
                 >
                   <div className="">
                     <Typography variant="lead" className="dark:text-white">
