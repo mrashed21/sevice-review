@@ -4,7 +4,7 @@
 Service Review System is a full-stack web application that allows users to review and interact with services listed by others. The platform supports user authentication, dynamic CRUD operations, and secure database management.
 
 ## 🌐 Live Demo
-[Live Website URL](#https://services-review.netlify.app/)
+[Live Website URL](https://services-review.netlify.app/)
 
 ---
 
