@@ -281,24 +281,6 @@ const Navbar = () => {
                         </NavLink>
                       </div>
                     )}
-                    <div className="mt-4">
-                      <NavLink
-                        to="/login"
-                        className={({ isActive }) =>
-                          isActive ? activeStyle : normalStyle
-                        }
-                      >
-                        Login
-                      </NavLink>
-                      <NavLink
-                        to="/register"
-                        className={({ isActive }) =>
-                          isActive ? activeStyle : normalStyle
-                        }
-                      >
-                        Register
-                      </NavLink>
-                    </div>
                   </div>
                 )}
               </div>
