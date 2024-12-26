@@ -58,8 +58,8 @@ const StatsSection = () => {
   }
 
   return (
-    <div className="p-6 bg-gray-100 rounded-lg shadow-md">
-      <h2 className="text-center text-2xl font-bold mb-6">
+    <div className="p-6 bg-gray-100 rounded-lg shadow-md  dark:bg-[#1E293B]">
+      <h2 className="text-center text-2xl font-bold mb-6 dark:text-white">
         Platform Statistics
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

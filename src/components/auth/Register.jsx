@@ -83,9 +83,9 @@ const Register = () => {
         <title>Register</title>
       </Helmet>
 
-      <div className="  py-10">
+      <div className=" dark:bg-[#1E293B]  py-10">
         <div className="px-5 md:px-0 md:w-6/12 mx-auto">
-          <Card className="p-6 shadow-md">
+          <Card className="p-6 shadow-md dark:bg-[#202632] dark:text-white">
             <Typography variant="h3" className="text-center font-bold mb-6">
               Register Now
             </Typography>
@@ -93,7 +93,8 @@ const Register = () => {
               <div className="mb-4">
                 <Input
                   type="text"
-                  label="Name"
+                  label={<span className="dark:text-white">Name</span>}
+                  className="dark:text-white"
                   {...register("name", { required: "Name is required" })}
                 />
                 {errors.name && (
@@ -106,7 +107,8 @@ const Register = () => {
               <div className="mb-4">
                 <Input
                   type="text"
-                  label="Image URL"
+                  label={<span className="dark:text-white">Image URL</span>}
+                  className="dark:text-white"
                   {...register("profile", {
                     required: "Image URL is required.",
                     pattern: {
@@ -127,7 +129,8 @@ const Register = () => {
               <div className="mb-4">
                 <Input
                   type="email"
-                  label="Email"
+                  label={<span className="dark:text-white">Email</span>}
+                  className="dark:text-white"
                   {...register("email", {
                     required: "Email is required",
                     pattern: {
@@ -146,7 +149,8 @@ const Register = () => {
               <div className="mb-4 relative">
                 <Input
                   type={showPassword ? "text" : "password"}
-                  label="Password"
+                  label={<span className="dark:text-white">Password</span>}
+                  className="dark:text-white"
                   {...register("password", {
                     required: "Password is required",
                   })}
@@ -180,10 +184,10 @@ const Register = () => {
             <Button
               variant="outlined"
               fullWidth
-              className="mt-4 flex items-center justify-center"
+              className="mt-4 flex items-center justify-center dark:text-white"
               onClick={handleGoogleLogin}
             >
-              <FcGoogle className="mr-2 text-xl" /> Sign Up with Google
+              <FcGoogle className="mr-2 text-xl " /> Sign Up with Google
             </Button>
           </Card>
         </div>

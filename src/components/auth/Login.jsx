@@ -73,12 +73,12 @@ const Login = () => {
         <title>Login</title>
       </Helmet>
       {/* Login Form */}
-      <div className="py-10 min-h-screen flex items-center justify-center">
-        <Card className="p-6 md:w-1/2 w-full shadow-lg">
+      <div className="py-10 min-h-screen flex items-center justify-center dark:bg-[#1E293B]">
+        <Card className="p-6 md:w-1/2 w-full shadow-lg dark:bg-[#202632] dark:text-white">
           <Typography
             variant="h4"
             color="blue-gray"
-            className="mb-6 text-center"
+            className="mb-6 text-center dark:text-white"
           >
             Login
           </Typography>
@@ -89,6 +89,7 @@ const Login = () => {
               </Typography>
               <Input
                 type="email"
+                className="dark:text-white"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email"
@@ -101,6 +102,7 @@ const Login = () => {
                 Password
               </Typography>
               <Input
+                className="dark:text-white"
                 type={showPassword ? "text" : "password"}
                 name="password"
                 placeholder="Enter your password"
@@ -140,7 +142,7 @@ const Login = () => {
             variant="outlined"
             color="black"
             onClick={handleGoogleLogin}
-            className="w-full flex items-center justify-center gap-2"
+            className="w-full flex items-center justify-center gap-2 dark:text-white"
           >
             <FcGoogle className="text-2xl" /> Login with Google
           </Button>
@@ -152,15 +154,20 @@ const Login = () => {
         open={isModalOpen}
         handler={() => setIsModalOpen(!isModalOpen)}
         size="sm"
-        className="p-6"
+        className="p-6 dark:bg-[#202632] dark:text-white"
       >
-        <Typography variant="h5" color="blue-gray" className="text-center mb-4">
+        <Typography
+          variant="h5"
+          color="blue-gray"
+          className="text-center mb-4 dark:text-white"
+        >
           Reset Password
         </Typography>
         <div className="space-y-4">
           <Input
             type="email"
-            label="Email Address"
+            className="dark:text-white"
+            label={<span className="dark:text-white">Email Address</span>}
             placeholder="Enter your email"
             value={resetEmail}
             onChange={(e) => setResetEmail(e.target.value)}
