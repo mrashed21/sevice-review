@@ -104,9 +104,13 @@ const AuthProvider = ({ children }) => {
           { withCredentials: true }
         );
       } else {
-        axios.get("https://server-seven-beta-45.vercel.app/logout", {
-          withCredentials: true,
-        });
+        axios.post(
+          "https://server-seven-beta-45.vercel.app/logout",
+          {},
+          {
+            withCredentials: true,
+          }
+        );
       }
     });
     return () => {
