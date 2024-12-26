@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-// /* eslint-disable react/prop-types */
 import {
   Button,
   Dialog,
@@ -15,17 +14,22 @@ import { useForm } from "react-hook-form";
 import ReactStars from "react-rating-stars-component";
 import { toast } from "react-toastify";
 
-export default function ReviewUpdate({ open, reviewId, handleOpen }) {
+export default function ReviewUpdate({
+  open,
+  reviewId,
+  handleOpen,
+  onUpdateSuccess,
+}) {
   const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
-  // Fetch Review Data
   useEffect(() => {
     if (reviewId) {
       const fetchReviewData = async () => {
@@ -34,9 +38,7 @@ export default function ReviewUpdate({ open, reviewId, handleOpen }) {
             `http://localhost:4000/review/${reviewId}`
           );
           const review = response.data;
-          // Set form values
           setValue("reviewText", review.reviewText);
-
           const rating = review.rating?.$numberInt
             ? parseInt(review.rating.$numberInt)
             : review.rating || 0;
@@ -49,9 +51,7 @@ export default function ReviewUpdate({ open, reviewId, handleOpen }) {
     }
   }, [reviewId, setValue]);
 
-  // Handle Update Submission
   const onSubmit = async (data) => {
-    // Validation
     if (data.reviewText.length < 20) {
       setError("Review text must be at least 20 characters long.");
       return;
@@ -61,17 +61,22 @@ export default function ReviewUpdate({ open, reviewId, handleOpen }) {
       return;
     }
     setError("");
+
     try {
       const updatedData = {
         ...data,
         rating: { $numberInt: data.rating.toString() },
       };
+
       await axios.put(
         `http://localhost:4000/review/update/${reviewId}`,
         updatedData
       );
+
       toast.success("Review updated successfully!");
+      reset();
       handleOpen();
+      onUpdateSuccess();
     } catch (error) {
       toast.error("Failed to update Review!");
       console.error("Error updating service:", error);
@@ -83,10 +88,10 @@ export default function ReviewUpdate({ open, reviewId, handleOpen }) {
       size="md"
       open={open}
       handler={handleOpen}
-      className="p-4  dark:bg-[#21252ea7]"
+      className="p-4 dark:bg-[#21252ea7]"
     >
-      <div className="">
-        <DialogHeader className="text-center text-white ">
+      <div>
+        <DialogHeader className="text-center text-white">
           Update Review
         </DialogHeader>
       </div>

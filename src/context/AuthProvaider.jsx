@@ -21,7 +21,7 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  //   Register with Email
+    // Register with Email
   const handleRegister = (email, password) => {
     const result = createUserWithEmailAndPassword(auth, email, password);
     axios.post("http://localhost:4000/users/add", {
@@ -31,7 +31,7 @@ const AuthProvider = ({ children }) => {
     });
     return result;
   };
-  // Login With Email
+
   const handleLogin = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   };

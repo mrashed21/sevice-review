@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types */
-
 import { Button, Textarea, Typography } from "@material-tailwind/react";
 import axios from "axios";
 import { format } from "date-fns";
@@ -8,6 +7,7 @@ import ReactStars from "react-rating-stars-component";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import ReviewUpdate from "./ReviewUpdate";
+
 const Review = ({ serviceId, user, service }) => {
   const [reviews, setReviews] = useState([]);
   const [reviewText, setReviewText] = useState("");
@@ -18,20 +18,21 @@ const Review = ({ serviceId, user, service }) => {
   const [reviewId, setReviewId] = useState("");
   const { title, image } = service;
 
+  const navigate = useNavigate();
+
   // Fetch reviews
+  const fetchReviews = async () => {
+    try {
+      const res = await axios.get(`http://localhost:4000/reviews/${serviceId}`);
+      setReviews(res.data);
+    } catch (error) {
+      console.error("Failed to fetch reviews", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:4000/reviews/${serviceId}`
-        );
-        setReviews(res.data);
-      } catch (error) {
-        console.error("Failed to fetch reviews", error);
-      } finally {
-        setLoading(false);
-      }
-    };
     fetchReviews();
   }, [serviceId]);
 
@@ -60,7 +61,7 @@ const Review = ({ serviceId, user, service }) => {
 
     try {
       await axios.post("http://localhost:4000/reviews/add", newReview);
-      setReviews([...reviews, newReview]);
+      await fetchReviews();
       setReviewText("");
       setRating(0);
     } catch (error) {
@@ -76,15 +77,15 @@ const Review = ({ serviceId, user, service }) => {
         icon: "warning",
         buttons: true,
         dangerMode: true,
-      }).then((willDelete) => {
+      }).then(async (willDelete) => {
         if (willDelete) {
-          axios.delete(`http://localhost:4000/review/delete/${id}`);
-          setReviews(reviews.filter((review) => review._id !== id));
-          swal("DELETE seccessfull!", {
+          await axios.delete(`http://localhost:4000/review/delete/${id}`);
+          await fetchReviews();
+          swal("DELETE successful!", {
             icon: "success",
           });
         } else {
-          swal("Your imaginary file is safe!");
+          swal("Your review is safe!");
         }
       });
     } catch (error) {
@@ -95,12 +96,15 @@ const Review = ({ serviceId, user, service }) => {
   const handlePassId = (id) => {
     setReviewId(id);
   };
-  // Toggle the modal and set the serviceId
+
   const handleOpen = () => {
     setOpen(!open);
   };
 
-  const navigate = useNavigate();
+  const handleUpdateSuccess = () => {
+    fetchReviews();
+  };
+
   const handleAddReview = () => {
     navigate("/login");
   };
@@ -108,7 +112,7 @@ const Review = ({ serviceId, user, service }) => {
   return (
     <>
       <div className="dark:bg-[#1E293B]">
-        <div className="w-11/12 mx-auto py-8 dark:">
+        <div className="w-11/12 mx-auto py-8">
           <Typography variant="h3" className="mb-4 dark:text-white">
             Reviews ({reviews.length})
           </Typography>
@@ -123,7 +127,7 @@ const Review = ({ serviceId, user, service }) => {
           ) : (
             <div className="grid grid-cols-4 gap-4">
               {reviews.map((review) => (
-                <div key={review._id} className="border  p-4 rounded-lg gap-4">
+                <div key={review._id} className="border p-4 rounded-lg gap-4">
                   <div className="flex items-center gap-4">
                     <img
                       src={review.userPhoto}
@@ -143,7 +147,7 @@ const Review = ({ serviceId, user, service }) => {
                     </div>
                   </div>
                   {review.reviewText.length > 100 ? (
-                    <p className="mt-2 text-gray-700 dark:text-white ">
+                    <p className="mt-2 text-gray-700 dark:text-white">
                       {review.showMore
                         ? review.reviewText
                         : `${review.reviewText.substring(0, 100)}... `}
@@ -158,7 +162,7 @@ const Review = ({ serviceId, user, service }) => {
                           setReviews(updatedReviews);
                         }}
                       >
-                        {review.showMore ? "see less" : "see more"}
+                        {review.showMore ? " see less" : "see more"}
                       </span>
                     </p>
                   ) : (
@@ -239,8 +243,8 @@ const Review = ({ serviceId, user, service }) => {
             </div>
           ) : (
             <div className="flex items-center justify-center mt-5 border-t">
-              <Button onClick={handleAddReview} className=" mt-5">
-                add a review
+              <Button onClick={handleAddReview} className="mt-5">
+                Add a review
               </Button>
             </div>
           )}
@@ -249,7 +253,8 @@ const Review = ({ serviceId, user, service }) => {
           open={open}
           reviewId={reviewId}
           handleOpen={handleOpen}
-        ></ReviewUpdate>
+          onUpdateSuccess={handleUpdateSuccess}
+        />
       </div>
     </>
   );

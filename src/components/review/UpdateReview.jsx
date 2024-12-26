@@ -1,3 +1,4 @@
+
 /* eslint-disable react/prop-types */
 import {
   Button,
@@ -14,7 +15,12 @@ import { useForm } from "react-hook-form";
 import ReactStars from "react-rating-stars-component";
 import { toast } from "react-toastify";
 
-export default function UpdateReview({ open, reviewId, handleOpen }) {
+export default function UpdateReview({
+  open,
+  reviewId,
+  handleOpen,
+  onUpdateSuccess,
+}) {
   const [error, setError] = useState("");
 
   const {
@@ -22,6 +28,7 @@ export default function UpdateReview({ open, reviewId, handleOpen }) {
     handleSubmit,
     setValue,
     watch,
+    reset,
     formState: { errors },
   } = useForm();
 
@@ -58,7 +65,6 @@ export default function UpdateReview({ open, reviewId, handleOpen }) {
 
   // Handle Update Submission
   const onSubmit = async (data) => {
-    // Validation
     if (data.reviewText.length < 20) {
       setError("Review text must be at least 20 characters long.");
       return;
@@ -80,11 +86,13 @@ export default function UpdateReview({ open, reviewId, handleOpen }) {
         updatedData
       );
 
-      toast.success("Service updated successfully!");
+      toast.success("Review updated successfully!");
+      reset();
       handleOpen();
+      onUpdateSuccess(); // Call this to refresh the reviews list
     } catch (error) {
-      toast.error("Failed to update service!");
-      console.error("Error updating service:", error);
+      toast.error("Failed to update review!");
+      console.error("Error updating review:", error);
     }
   };
 
@@ -93,7 +101,7 @@ export default function UpdateReview({ open, reviewId, handleOpen }) {
       size="lg"
       open={open}
       handler={handleOpen}
-      className="p-4  dark:bg-[#293548] size-11/12"
+      className="p-4 dark:bg-[#293548] size-11/12"
     >
       <div className="flex justify-center items-center">
         <DialogHeader className="text-center dark:text-white">
@@ -105,7 +113,7 @@ export default function UpdateReview({ open, reviewId, handleOpen }) {
           onSubmit={handleSubmit(onSubmit)}
           className="flex items-center justify-between gap-4"
         >
-          <div className=" w-1/2">
+          <div className="w-1/2">
             <img
               src={watch("image")}
               alt="service"

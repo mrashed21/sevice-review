@@ -7,6 +7,7 @@ import swal from "sweetalert";
 import { AuthContext } from "../../context/AuthProvaider";
 import Spinner from "../../pages/Spiiner";
 import UpdateReview from "./UpdateReview";
+
 const MyReview = () => {
   const { user, logOut } = useContext(AuthContext);
   const [reviews, setReviews] = useState([]);
@@ -15,30 +16,31 @@ const MyReview = () => {
   const [reviewId, setReviewId] = useState("");
 
   // Fetch reviews
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const res = await axios.get(
-          `http://localhost:4000/reviews/me/${user.email}`,
-          {
-            withCredentials: true,
-          }
-        );
-        setReviews(res.data);
-        setLoading(false);
-      } catch (error) {
-        if (error.response?.status === 401) {
-          logOut();
-        } else {
-          console.error("Error fetching services:", error.message);
+  const fetchReviews = async () => {
+    try {
+      const res = await axios.get(
+        `http://localhost:4000/reviews/me/${user.email}`,
+        {
+          withCredentials: true,
         }
+      );
+      setReviews(res.data);
+      setLoading(false);
+    } catch (error) {
+      if (error.response?.status === 401) {
+        logOut();
+      } else {
+        console.error("Error fetching services:", error.message);
       }
-    };
+    }
+  };
 
+  useEffect(() => {
     if (user.email) {
       fetchReviews();
     }
   }, [user.email]);
+
   // handle delete review
   const handleDelete = async (id) => {
     try {
@@ -48,29 +50,34 @@ const MyReview = () => {
         icon: "warning",
         buttons: true,
         dangerMode: true,
-      }).then((willDelete) => {
+      }).then(async (willDelete) => {
         if (willDelete) {
-          axios.delete(`http://localhost:4000/review/delete/${id}`);
-          setReviews(reviews.filter((review) => review._id !== id));
-          swal("DELETE seccessfull!", {
+          await axios.delete(`http://localhost:4000/review/delete/${id}`);
+          await fetchReviews(); // Refresh reviews after deletion
+          swal("DELETE successful!", {
             icon: "success",
           });
         } else {
-          swal("Your imaginary file is safe!");
+          swal("Your review is safe!");
         }
       });
     } catch (error) {
       console.error("Error deleting review:", error);
     }
   };
+
   const handlePassId = (id) => {
     setReviewId(id);
   };
-  // Toggle the modal and set the serviceId
+
   const handleOpen = () => {
     setOpen(!open);
   };
-  // Loading spinner
+
+  const handleUpdateSuccess = () => {
+    fetchReviews(); // Refresh reviews after update
+  };
+
   if (loading) {
     return <Spinner />;
   }
@@ -81,7 +88,7 @@ const MyReview = () => {
         <title>My Reviews</title>
       </Helmet>
       <div className="dark:bg-[#293548]">
-        <div className="w-11/12 mx-auto py-10  ">
+        <div className="w-11/12 mx-auto py-10">
           <h2 className="text-2xl font-bold text-center mb-6 dark:text-white">
             My Reviews
           </h2>
@@ -104,7 +111,6 @@ const MyReview = () => {
                 >
                   <div className="">
                     <Typography variant="lead" className="dark:text-white">
-                      {" "}
                       Service Title
                     </Typography>
                     <Typography
@@ -151,7 +157,7 @@ const MyReview = () => {
                     />
                   </div>
 
-                  <div className="flex w-full lg:w-fit lg:flex-col justify-between  lg:gap-4">
+                  <div className="flex w-full lg:w-fit lg:flex-col justify-between lg:gap-4">
                     <Button
                       onClick={() => {
                         handleOpen();
@@ -162,9 +168,7 @@ const MyReview = () => {
                       Update
                     </Button>
                     <Button
-                      onClick={() => {
-                        handleDelete(review._id);
-                      }}
+                      onClick={() => handleDelete(review._id)}
                       className="text-red-500"
                     >
                       Delete
@@ -177,7 +181,12 @@ const MyReview = () => {
         </div>
       </div>
 
-      <UpdateReview open={open} reviewId={reviewId} handleOpen={handleOpen} />
+      <UpdateReview
+        open={open}
+        reviewId={reviewId}
+        handleOpen={handleOpen}
+        onUpdateSuccess={handleUpdateSuccess}
+      />
     </>
   );
 };

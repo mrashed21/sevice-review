@@ -33,7 +33,7 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className="bg-white dark:bg-gray-900 shadow-lg">
+      <nav className="bg-white dark:bg-gray-900 shadow-lg py-2 ">
         <div className="px-4 lg:w-11/12 mx-auto flex justify-between items-center py-1">
           {/* Navbar start */}
           

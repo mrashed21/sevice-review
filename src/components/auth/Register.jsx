@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import { AuthContext } from "../../context/AuthProvaider";
 
 const Register = () => {
@@ -22,16 +23,17 @@ const Register = () => {
     formState: { errors },
   } = useForm();
 
-  const handleGoogleLogin = async () => {
-    try {
-      const result = await handleLoginGoogle();
-      setUser(result.user);
-      navigate(redirectTo);
-    } catch {
-      setError("Something went wrong! Try again");
-    }
+  const handleGoogleLogin = () => {
+    handleLoginGoogle()
+      .then((user) => {
+        setUser(user);
+        toast.success("Google login successful!");
+        navigate(redirectTo);
+      })
+      .catch(() => {
+        toast.error("Something went wrong! Try again.");
+      });
   };
-
   const validatePassword = (password) => {
     if (!/[a-z]/.test(password)) {
       return "Password must contain at least one lowercase letter.";
@@ -64,9 +66,14 @@ const Register = () => {
       const result = await handleRegister(email, password);
       await handleName(name, profile);
       setUser({ ...result.user, displayName: name, photoURL: profile });
+
+      toast.success("Registration successful!", {});
+
       navigate(redirectTo);
     } catch (error) {
       setError(error.message);
+
+      toast.error("Registration failed: " + error.message, {});
     }
   };
 
