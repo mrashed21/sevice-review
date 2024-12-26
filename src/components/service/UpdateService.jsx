@@ -13,7 +13,7 @@ import {
 } from "@material-tailwind/react";
 import axios from "axios";
 import { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
@@ -50,7 +50,6 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
       fetchServiceData();
     }
   }, [selectedId, setValue]);
-
   const onSubmit = async (data) => {
     try {
       await axios.put(
@@ -172,6 +171,20 @@ export default function UpdateService({ open, handleOpen, selectedId }) {
               <Option value="Marketing">Marketing</Option>
               <Option value="SEO">SEO</Option>
               <Option value="Content Writing">Content Writing</Option>
+              <Option value="Software Solutions">Software Solutions</Option>
+              <Option value="Plumbing">Plumbing</Option>
+              <Option value="Electrical Repairs">Electrical Repairs</Option>
+              <Option value="Cleaning Services">Cleaning Services</Option>
+              <Option value="Interior Design">Interior Design</Option>
+              <Option value="Fitness Trainers">Fitness Trainers</Option>
+              <Option value="Nutritionists">Nutritionists</Option>
+              <Option value="Psychologists">Psychologists</Option>
+              <Option value="Therapists">Therapists</Option>
+              <Option value="Care Givers">Care Givers</Option>
+              <Option value="Dental Services">Dental Services</Option>
+              <Option value="Hair Stylists">Hair Stylists</Option>
+              <Option value="Makeup Artists">Makeup Artists</Option>
+              <Option value="Others">Others</Option>
             </Select>
             {errors.category && (
               <p className="text-red-500 text-xs mt-1">
