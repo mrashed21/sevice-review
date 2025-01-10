@@ -97,7 +97,7 @@ const MyReview = () => {
 
           <div className="space-y-5">
             {reviews.length === 0 ? (
-              <div className="min-h-screen flex items-center justify-center">
+              <div className=" flex items-center justify-center">
                 <Typography
                   variant="h4"
                   className="text-center col-span-full dark:text-white"

@@ -27,7 +27,7 @@ const partners = [
 const MeetOurPartners = () => {
   return (
     <div className="bg-gray-200 dark:bg-gray-900">
-        <div className="min-h-screen w-11/12 mx-auto  text-white py-12">
+        <div className=" w-11/12 mx-auto  text-white py-12">
       <div className="text-center mb-12">
         <Typography variant="h4" className="text-blue-400 font-bold">
           Meet Our Partners
