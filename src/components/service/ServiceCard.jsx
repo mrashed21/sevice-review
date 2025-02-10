@@ -53,8 +53,7 @@ const ServiceCard = ({ service }) => {
           <Typography variant="h5" className="font-bold">
             {service.title}
           </Typography>
-          <Typography>
-            <span className="text-base font-medium"> Category:</span>{" "}
+          <Typography className="mt-2">
             <span className={`py-1 px-3 w-fit rounded-full ${categoryClass}`}>
               {service.category}
             </span>
@@ -69,7 +68,7 @@ const ServiceCard = ({ service }) => {
           </div>
           <div className="flex justify-between items-center">
             <Typography variant="h5" className="font-semibold ">
-              Price: ${service.minPrice} - ${service.maxPrice}
+              ${service.minPrice} - ${service.maxPrice}
             </Typography>
           </div>
         </CardBody>
