@@ -81,14 +81,14 @@ const ServiceDetails = () => {
             <Typography variant="h4" className="mt-4 ">
               {service.title}
             </Typography>
-            <div className="flex gap-5 items-center">
+            <div className="flex gap-5 items-center mt-3">
             <Typography
               variant="small"
-              className="text-gray-500 dark:text-gray-50 mt-2"
+              className="text-gray-500 dark:text-gray-50"
             >
               {format(new Date(service.date), "PPP")}
             </Typography>
-            <Typography className="mt-3">
+            <Typography className="">
               <span className="text-base font-medium"> </span>{" "}
               <span className={`py-1 px-3 w-fit rounded-full ${categoryClass}`}>
                 {service.category}
