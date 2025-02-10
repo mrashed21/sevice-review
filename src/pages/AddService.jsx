@@ -18,7 +18,7 @@ import { toast } from "react-toastify";
 import { AuthContext } from "../context/AuthProvaider";
 
 const AddService = () => {
-  const { user, logOut } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const {
     register,
     handleSubmit,
