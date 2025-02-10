@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import CountUp from "react-countup";
+import Spinner from "../../pages/Spiiner";
 
 const StatsSection = () => {
   const [userCount, setUserCount] = useState(0);
@@ -54,7 +55,7 @@ const StatsSection = () => {
   }, []);
 
   if (isLoading) {
-    return <div className="text-center py-10">Loading...</div>;
+    return <Spinner />;
   }
 
   return (
