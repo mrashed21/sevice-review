@@ -81,12 +81,20 @@ const ServiceDetails = () => {
             <Typography variant="h4" className="mt-4 ">
               {service.title}
             </Typography>
+            <div className="flex gap-5 items-center">
             <Typography
               variant="small"
               className="text-gray-500 dark:text-gray-50 mt-2"
             >
               {format(new Date(service.date), "PPP")}
             </Typography>
+            <Typography className="mt-3">
+              <span className="text-base font-medium"> </span>{" "}
+              <span className={`py-1 px-3 w-fit rounded-full ${categoryClass}`}>
+                {service.category}
+              </span>
+            </Typography>
+            </div>
             <Typography variant="h6" className="mt-2 dark:text-white">
               Company : {service.company}
             </Typography>
@@ -99,14 +107,9 @@ const ServiceDetails = () => {
             <Typography className="mt-4">{service.description}</Typography>
 
             <Typography variant="h6" className="mt-2 text-blue-500">
-              Price: ${service.minPrice} - ${service.maxPrice}
+              ${service.minPrice} - ${service.maxPrice}
             </Typography>
-            <Typography className="mt-3">
-              <span className="text-base font-medium"> Category:</span>{" "}
-              <span className={`py-1 px-3 w-fit rounded-full ${categoryClass}`}>
-                {service.category}
-              </span>
-            </Typography>
+           
           </CardBody>
         </Card>
       </div>
