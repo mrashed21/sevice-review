@@ -62,10 +62,10 @@ const Footer = () => {
               Email: service@review.com
             </Typography>
             <Typography variant="paragraph" className=" text-sm">
-              Phone: +123 456 7890
+              Phone: +8801781131905
             </Typography>
             <Typography variant="paragraph" className=" text-sm">
-              Address: 123 Main St, City, Country
+              Address: Uttara, Dhaka, Bangladesh
             </Typography>
           </div>
         </div>

@@ -21,7 +21,7 @@ const MainLayout = () => {
     );
   }
   return (
-    <>
+    <section>
       <HelmetProvider>
         <header className="sticky top-0 z-50">
           <Navbar />
@@ -34,7 +34,7 @@ const MainLayout = () => {
         </footer>
         <ToastContainer />
       </HelmetProvider>
-    </>
+    </section>
   );
 };
 
